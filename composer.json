@@ -1,0 +1,32 @@
+{
+  "name": "aweingarten/cloudflarephpsdk",
+  "type": "library",
+  "description": "PHP client for interacting with CloudFlare's SDK. CloudFlare is a copyright of CloudFlare, Inc.  The authors of this tool has no association with CloudFlare, Inc.",
+  "keywords": ["CloudFlare", "Cloud Flare", "framework", "rest", "web service", "curl", "client", "HTTP client"],
+  "homepage": "https://github.com/aweingarten/cloudflarephpsdk",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Adam Weingarten",
+      "email": "adweingarten@gmail.com",
+      "homepage": "https://github.com/aweingarten"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "guzzlehttp/guzzle": "~5.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.6.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "CloudFlarePhpSdk\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "CloudFlarePhpSdk\\Tests\\": "tests/"
+    }
+  }
+}
