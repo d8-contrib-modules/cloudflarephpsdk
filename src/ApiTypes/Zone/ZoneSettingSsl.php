@@ -20,19 +20,23 @@ class ZoneSettingSsl extends ZoneSettingBase {
   const SSL_FULL = 'full';
   const SSL_STRICT = 'strict';
 
-  const SSL_LEVELS = [
-    self::SSL_OFF,
-    self::SSL_FLEXIBLE,
-    self::SSL_FULL,
-    self::SSL_STRICT
-  ];
-
   /**
    * The response value.
    *
    * @var string
    */
   private $value;
+
+
+
+  public static function getSslLevels(){
+    return [
+      self::SSL_OFF,
+      self::SSL_FLEXIBLE,
+      self::SSL_FULL,
+      self::SSL_STRICT
+    ];
+  }
 
   /**
    * Gets the response value.
@@ -54,7 +58,7 @@ class ZoneSettingSsl extends ZoneSettingBase {
    *   Throws exception when the user tries to change a value that is not
    *   modifiable for them.
    * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
-   *    Exception thrown when a value not in the SSL_LEVELS
+   *    Exception thrown when a value not in the getSslLevels
    *    passed to the function.
    */
   public function setValue($value) {
@@ -67,10 +71,10 @@ class ZoneSettingSsl extends ZoneSettingBase {
    * Sets the zone Ssl level.
    *
    * @param string $value
-   *   Zone security level from SSL_LEVELS.
+   *   Zone security level from getSslLevels.
    *
    * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
-   *    Exception thrown when a value not in the SSL_LEVELS
+   *    Exception thrown when a value not in the getSslLevels
    *    passed to the function.
    */
   private function _setValue($value) {
@@ -81,7 +85,7 @@ class ZoneSettingSsl extends ZoneSettingBase {
   public function assertValidValue($value) {
     $is_null = is_null($value);
     $is_bool = $value === TRUE || $value === FALSE;
-    $is_ssl_level = in_array($value, self::SSL_LEVELS);
+    $is_ssl_level = in_array($value, $this->getSslLevels());
 
     if ($is_null || $is_bool || !$is_ssl_level) {
       throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $this->value);

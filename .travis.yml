@@ -4,15 +4,34 @@ php:
   - 5.5
   - 5.6
   - 7.0
-  - hhvm
-
-before_script:
-  - curl --version
-  - composer self-update
-  - composer install --no-interaction --prefer-source --dev
 
 matrix:
   allow_failures:
-    - php: hhvm
     - php: 7.0
   fast_finish: true
+
+cache:
+  bundler: true
+  apt: true
+  directories:
+    - $HOME/.composer/cache
+
+env:
+  - COMPOSER_BIN_DIR=$TRAVIS_BUILD_DIR/bin'
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y -qq postfix
+  - composer selfupdate
+
+install:
+  # The project contains two composer.json files, one for the new project
+  # and one for the installer.
+  - composer install --no-interaction --prefer-source --dev
+  - export PATH=$PATH:$COMPOSER_BIN_DIR
+
+script:
+  # Run tests
+  - phing -f build/phing/build.xml run-tests
+
+

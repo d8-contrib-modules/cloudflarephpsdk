@@ -24,13 +24,15 @@ class ZoneSettingSecurityLevel extends ZoneSettingBase {
   const SECURITY_HIGH = 'high';
   const SECURITY_UNDERATTACK = 'under_attack';
 
-  const SECURITY_LEVELS = [
-    self::SECURITY_OFF,
-    self::SECURITY_LOW,
-    self::SECURITY_MEDIUM,
-    self::SECURITY_HIGH,
-    self::SECURITY_UNDERATTACK,
-  ];
+  static function getSecurityLevels(){
+    return [
+      self::SECURITY_OFF,
+      self::SECURITY_LOW,
+      self::SECURITY_MEDIUM,
+      self::SECURITY_HIGH,
+      self::SECURITY_UNDERATTACK,
+    ];
+  }
 
   /**
    * The response value.
@@ -106,7 +108,7 @@ class ZoneSettingSecurityLevel extends ZoneSettingBase {
   public function assertValidValue($value) {
     $is_null = is_null($value);
     $is_bool = $value === TRUE || $value === FALSE;
-    $is_valid_level = in_array($value, self::SECURITY_LEVELS);
+    $is_valid_level = in_array($value, $this->getSecurityLevels());
 
     if ($is_null || $is_bool || !$is_valid_level) {
       throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $this->value);

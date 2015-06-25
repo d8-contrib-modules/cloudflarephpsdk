@@ -7,6 +7,7 @@ use GuzzleHttp\Message\Response;
 use GuzzleHttp\Stream\Stream;
 use CloudFlarePhpSdk\ApiTypes;
 use CloudFlarePhpSdk\ApiEndpoints\ZoneApi;
+use CloudFlarePhpSdk\Exceptions\CloudFlareApiException;
 
 class ZoneApiTest extends \PHPUnit_Framework_TestCase {
 
@@ -33,6 +34,43 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
 
     }
   }
+
+
+  /**
+   * @dataProvider getFailedRequestCodes
+   */
+  public function testFailedRequestCodes($code){
+    $this->setExpectedException('CloudFlarePhpSdk\Exceptions\CloudFlareHttpException');
+    $mock = new Mock([
+      new Response($code,[], Stream::factory("This could be a problem.")),
+    ]);
+
+    $api = new ZoneApi("api_key", "email");
+    $api->setMockApi($mock);
+    $zones = $api->listZones();
+  }
+
+  /**
+   * @dataProvider getFailedApiResponses
+   */
+  public function testFailedApiResponses($code){
+    $this->setExpectedException('CloudFlarePhpSdk\Exceptions\CloudFlareApiException');
+    $mock = new Mock([
+      new Response(200,[], Stream::factory($code)),
+    ]);
+
+    $api = new ZoneApi("api_key", "email");
+    $api->setMockApi($mock);
+    $zones = $api->listZones();
+  }
+
+
+
+
+
+
+
+
 
   /**
    * Checks that the Parsed zone matches raw zone data.
@@ -61,6 +99,17 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals($zone->getPlan(),$zone_json['plan']);
   }
 
+  public function getFailedRequestCodes(){
+    return [
+      ['304'],
+      ['400'],
+      ['401'],
+      ['403'],
+      ['405'],
+      ['415'],
+      ['429'],
+    ];
+  }
 
   public function getZoneDataListing(){
      $json ='{
@@ -163,4 +212,28 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
 }';
     return [[$json]];
   }
+
+
+  public function getFailedApiResponses() {
+    $case1 = '{
+  "success": false,
+  "errors": [],
+  "messages": [],
+  }';
+
+    $case2 = '{
+  "success": false,
+  "errors": ["blah"],
+  "messages": [],
+  }';
+
+    $case3 = '{
+  ';
+
+
+    return [[$case1], [$case2], [$case3]];
+  }
+
 }
+
+

@@ -24,7 +24,7 @@ class Utils {
   public static function assertParam($actual_value, $expected_type, $param_name) {
     $calling_function = debug_backtrace()[1]['function'];
     $message = "The function $calling_function only accepts a type of $expected_type for the param $param_name";
-    self::assertType($actual_value, $expected_type, $message);
+    Utils::assertType($actual_value, $expected_type, $message);
   }
 
   /**

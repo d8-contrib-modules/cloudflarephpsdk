@@ -64,38 +64,6 @@ class ZoneSettings {
   const SETTING_TLS_CLIENT_AUTH = 'tls_client_auth';
   const SETTING_WAF = 'waf';
 
-  /*
-   * @var array
-   * Listing of the settings which are booleans.
-   */
-  const BOOLEAN_SETTINGS = [
-    self::SETTING_ADVANCED_DDOS,
-    self::SETTING_ALWAYS_ONLINE,
-    self::SETTING_BROWSER_CHECK,
-    self::SETTING_DEVELOPMENT_MODE,
-    self::SETTING_EMAIL_OBFUSCATION,
-    self::SETTING_HOTLINK_OBFUSCATION,
-    self::SETTING_IP_GEOLOCATION,
-    self::SETTING_IPV6,
-    self::SETTING_MIRAGE,
-    self::SETTING_PSEUDO_IPV4,
-    self::SETTING_ROCKET_LOADER,
-    self::SETTING_SERVER_SIDE_EXCLUDE,
-    self::SETTING_TLS_CLIENT_AUTH,
-    self::SETTING_WAF,
-  ];
-
-  /*
-   * @var array
-   * Listing of the settings which are integers.
-   */
-  const INTEGER_SETTINGS = [
-    self::SETTING_BROWSER_CACHE_TTL,
-    self::SETTING_CHALLENGE_TTL,
-    self::SETTING_EDGE_CACHE_TTL,
-    self::SETTING_MAX_UPLOAD
-  ];
-
   // Zone cache levels.
   const CACHE_AGGRESSIVE = 'aggressive';
   const CACHE_BASIC = 'basic';
@@ -110,6 +78,38 @@ class ZoneSettings {
   const SETTING_WRAPPER_MODIFIED_ON = 'modified_on';
   const SETTING_WRAPPER_EDITABLE = 'editable';
   const SETTING_WRAPPER_VALUE = 'value';
+
+  /*
+   * @var array
+   * Listing of the settings which are integers.
+   */
+  public static function getIntegerSettings() {
+    return [
+      self::SETTING_BROWSER_CACHE_TTL,
+      self::SETTING_CHALLENGE_TTL,
+      self::SETTING_EDGE_CACHE_TTL,
+      self::SETTING_MAX_UPLOAD
+    ];
+  }
+
+  public static function getBooleanSettings(){
+    return [
+      self::SETTING_ADVANCED_DDOS,
+      self::SETTING_ALWAYS_ONLINE,
+      self::SETTING_BROWSER_CHECK,
+      self::SETTING_DEVELOPMENT_MODE,
+      self::SETTING_EMAIL_OBFUSCATION,
+      self::SETTING_HOTLINK_OBFUSCATION,
+      self::SETTING_IP_GEOLOCATION,
+      self::SETTING_IPV6,
+      self::SETTING_MIRAGE,
+      self::SETTING_PSEUDO_IPV4,
+      self::SETTING_ROCKET_LOADER,
+      self::SETTING_SERVER_SIDE_EXCLUDE,
+      self::SETTING_TLS_CLIENT_AUTH,
+      self::SETTING_WAF,
+    ];
+  }
 
   /**
    * Constructor for ZoneSettings.
@@ -129,12 +129,12 @@ class ZoneSettings {
       $value = $raw_setting[self::SETTING_WRAPPER_VALUE];
 
       // Parse the boolean values into ZoneSettingBools.
-      if (in_array($setting_name, self::BOOLEAN_SETTINGS)) {
+      if (in_array($setting_name, $this->getBooleanSettings())) {
         $this->settings[$setting_name] = new ZoneSettingBool($value, $setting_name, $editable, $modified_time);
       }
 
       // Parse the integer values in to ZoneSettingInts.
-      elseif (in_array($setting_name, self::INTEGER_SETTINGS)) {
+      elseif (in_array($setting_name, $this->getIntegerSettings())) {
         $this->settings[$setting_name] = new ZoneSettingInt($value, $setting_name, $editable, $modified_time);
       }
 
@@ -251,14 +251,14 @@ class ZoneSettings {
       $setting_name = $setting->getZoneSettingName();
 
       // Parse the boolean values into ZoneSettingBools.
-      if (in_array($setting_name, self::BOOLEAN_SETTINGS)) {
+      if (in_array($setting_name, $this->getBooleanSettings())) {
         /* @var ZoneSettingBool $setting */
         $bool_val = $setting->getValue() ? 'on' : 'off';
         $items[] = ['zoneId' => $setting_name, 'value' => $bool_val];
       }
 
       // Parse the integer values in to ZoneSettingInts.
-      elseif (in_array($setting_name, self::INTEGER_SETTINGS)) {
+      elseif (in_array($setting_name, $this->getIntegerSettings())) {
         /* @var ZoneSettingInt $setting */
         $items[] = ['zoneId' => $setting_name, 'value' => $setting->getValue()];
       }
