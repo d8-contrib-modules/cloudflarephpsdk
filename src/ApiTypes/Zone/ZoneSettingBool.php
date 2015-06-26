@@ -48,15 +48,33 @@ class ZoneSettingBool extends ZoneSettingBase {
    */
   public function setValue($value) {
     $this->assertEditable($value);
-    $this->_setValue($value);
+    $this->setInternalValue($value);
     $this->markForEdit();
   }
 
-  public function _setValue($value) {
+  /**
+   * Sets the value of the setting.
+   *
+   * @param bool $value
+   *   The boolean to set the current setting to.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   Exception thrown when the value passed in is not a bool.
+   */
+  public function setInternalValue($value) {
     $this->assertValidValue($value);
     $this->value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
   }
 
+  /**
+   * Asserts that the value is valid.
+   *
+   * @param bool $value
+   *   Variable to test.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   When the value is invalid an exception is thrown.
+   */
   public function assertValidValue($value) {
     $result = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 
@@ -79,7 +97,7 @@ class ZoneSettingBool extends ZoneSettingBase {
    */
   public function __construct($value, $setting_id, $editable, $modified_on) {
     parent::__construct($setting_id, $editable, $modified_on);
-    $this->_setValue($value);
+    $this->setInternalValue($value);
   }
 
 }

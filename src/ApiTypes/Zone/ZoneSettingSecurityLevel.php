@@ -24,7 +24,13 @@ class ZoneSettingSecurityLevel extends ZoneSettingBase {
   const SECURITY_HIGH = 'high';
   const SECURITY_UNDERATTACK = 'under_attack';
 
-  static function getSecurityLevels(){
+  /**
+   * Returns a listing of the strings denoting Ssl level.  Poor-man's enum.
+   *
+   * @return array
+   *   List of Ssl string levels.
+   */
+  public static function getSecurityLevels() {
     return [
       self::SECURITY_OFF,
       self::SECURITY_LOW,
@@ -55,7 +61,7 @@ class ZoneSettingSecurityLevel extends ZoneSettingBase {
    */
   public function __construct($value, $setting_id, $editable, $modified_on) {
     parent::__construct($setting_id, $editable, $modified_on);
-    $this->_setValue($value);
+    $this->setInternalValue($value);
   }
 
   /**
@@ -83,7 +89,7 @@ class ZoneSettingSecurityLevel extends ZoneSettingBase {
    */
   public function setValue($value) {
     $this->assertEditable();
-    $this->_setValue($value);
+    $this->setInternalValue($value);
     $this->markForEdit();
   }
 
@@ -100,11 +106,20 @@ class ZoneSettingSecurityLevel extends ZoneSettingBase {
    *    Exception thrown when a value not in the SECURITY_LEVELS
    *    passed to the function.
    */
-  public function _setValue($value) {
+  public function setInternalValue($value) {
     $this->assertValidValue($value);
     $this->value = $value;
   }
 
+  /**
+   * Asserts that the value is valid.
+   *
+   * @param string $value
+   *   The value to check.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   When the value is invalid an exception is thrown.
+   */
   public function assertValidValue($value) {
     $is_null = is_null($value);
     $is_bool = $value === TRUE || $value === FALSE;

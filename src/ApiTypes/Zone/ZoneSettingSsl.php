@@ -27,9 +27,13 @@ class ZoneSettingSsl extends ZoneSettingBase {
    */
   private $value;
 
-
-
-  public static function getSslLevels(){
+  /**
+   * Returns a listing of the strings denoting Ssl level.
+   *
+   * @return array
+   *   List of Ssl string levels.
+   */
+  public static function getSslLevels() {
     return [
       self::SSL_OFF,
       self::SSL_FLEXIBLE,
@@ -63,7 +67,7 @@ class ZoneSettingSsl extends ZoneSettingBase {
    */
   public function setValue($value) {
     $this->assertEditable();
-    $this->_setValue($value);
+    $this->setInternalValue($value);
     $this->markForEdit();
   }
 
@@ -77,11 +81,20 @@ class ZoneSettingSsl extends ZoneSettingBase {
    *    Exception thrown when a value not in the getSslLevels
    *    passed to the function.
    */
-  private function _setValue($value) {
+  private function setInternalValue($value) {
     $this->assertValidValue($value);
     $this->value = $value;
   }
 
+  /**
+   * Asserts that the value is valid.
+   *
+   * @param string $value
+   *   The value to check.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   When the value is invalid an exception is thrown.
+   */
   public function assertValidValue($value) {
     $is_null = is_null($value);
     $is_bool = $value === TRUE || $value === FALSE;
@@ -91,7 +104,6 @@ class ZoneSettingSsl extends ZoneSettingBase {
       throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $this->value);
     }
   }
-
 
   /**
    * Default constructor for ZoneSettingsSsl.
@@ -107,7 +119,7 @@ class ZoneSettingSsl extends ZoneSettingBase {
    */
   public function __construct($value, $setting_id, $editable, $modified_on) {
     parent::__construct($setting_id, $editable, $modified_on);
-    $this->_setValue($value);
+    $this->setInternalValue($value);
   }
 
 }

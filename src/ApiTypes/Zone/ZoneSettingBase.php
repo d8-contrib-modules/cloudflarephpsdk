@@ -33,7 +33,6 @@ abstract class ZoneSettingBase {
    */
   protected $modifiedOn;
 
-
   /**
    * Indicator if the value was changed locally.
    *
@@ -128,4 +127,5 @@ abstract class ZoneSettingBase {
       throw new CloudFlareNotModifiableException($this->id);
     }
   }
+
 }

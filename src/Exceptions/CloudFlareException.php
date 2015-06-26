@@ -22,7 +22,7 @@ class CloudFlareException extends \Exception {
    * @param \Exception $previous
    *   Previous exceptions thrown higher in the call-stack.
    */
-  public function __construct($message, $code,\Exception $previous = NULL) {
+  public function __construct($message, $code, \Exception $previous = NULL) {
     parent::__construct($message, $code, $previous);
     $this->message = $message;
   }

@@ -45,7 +45,7 @@ class ZoneSettingInt extends ZoneSettingBase {
    */
   public function setValue($value) {
     $this->assertEditable($value);
-    $this->_setValue($value);
+    $this->setInternalValue($value);
     $this->markForEdit();
   }
 
@@ -58,18 +58,26 @@ class ZoneSettingInt extends ZoneSettingBase {
    * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
    *   Exception thrown when the value passed in is not an int.
    */
-  private function _setValue($value) {
+  private function setInternalValue($value) {
     $this->assertValidValue($value);
     $this->value = filter_var($value, FILTER_VALIDATE_INT);
   }
 
+  /**
+   * Asserts that the value is valid.
+   *
+   * @param bool $value
+   *   The int to type check.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   When the value is invalid an exception is thrown.
+   */
   public function assertValidValue($value) {
-
     $is_null = is_null($value);
     $is_bool = $value === TRUE || $value === FALSE;
-    $is_int = filter_var($value, FILTER_VALIDATE_INT)!==FALSE;
+    $is_int = filter_var($value, FILTER_VALIDATE_INT) !== FALSE;
 
-    if($is_null || $is_bool || !$is_int) {
+    if ($is_null || $is_bool || !$is_int) {
       throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $this->value);
     }
   }
@@ -89,7 +97,7 @@ class ZoneSettingInt extends ZoneSettingBase {
    */
   public function __construct($value, $setting_id, $editable, $modified_on) {
     parent::__construct($setting_id, $editable, $modified_on);
-    $this->_setValue($value);
+    $this->setInternalValue($value);
   }
 
 }

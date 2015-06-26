@@ -42,15 +42,13 @@ class CloudFlareInvalidSettingValueException extends CloudFlareException {
   public function __construct($field_name, $value, \Exception $previous = NULL) {
     $value_as_string = '';
 
-    try{
+    try {
       $value_as_string = (string) $value;
     }
 
-    catch(\Exception $e){
+    catch (\Exception $e) {
       $value_as_string = gettype($value) . 'type ';
     }
-
-
 
     $message = 'CloudFlarePhpSdk: The ' . $value_as_string . ' is not valid for ' . $field_name;
 

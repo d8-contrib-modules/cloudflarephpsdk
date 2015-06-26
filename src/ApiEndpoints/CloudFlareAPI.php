@@ -79,13 +79,6 @@ abstract class CloudFlareAPI {
    */
   public function setMockApi(Mock $mock) {
     $this->client->getEmitter()->attach($mock);
-
-    /*$this->client = new Client([
-      'handler' => $mock,
-      'base_url' => self::API_ENDPOINT_BASE,
-      'headers' => ['X-Auth-Key' => "test", 'X-Auth-Email' => '1@2.com', 'Content-Type' => 'application/json'],
-      'verify' => FALSE
-    ]);*/
   }
 
   /**

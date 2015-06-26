@@ -32,7 +32,7 @@ class CloudFlareNotModifiableException extends CloudFlareException {
   public function __construct($field_name, \Exception $previous = NULL) {
     $this->fieldName = $field_name;
     $this->message = "CloudFlarePhpSdk: The field $field_name is not editable.";
-    parent::__construct($this->message, 0,  $previous);
+    parent::__construct($this->message, 0, $previous);
   }
 
 }

@@ -50,7 +50,6 @@ class Zone {
     $this->originalDnshost = $cloudflare_zone_settings['original_dnshost'];
     $this->modifiedOn = $cloudflare_zone_settings['modified_on'];
     $this->createdOn = $cloudflare_zone_settings['created_on'];
-   // $this->meta = $cloudflare_zone_settings['meta'];
     $this->owner = $cloudflare_zone_settings['owner'];
     $this->permissions = $cloudflare_zone_settings['permissions'];
     $this->plan = $cloudflare_zone_settings['plan'];

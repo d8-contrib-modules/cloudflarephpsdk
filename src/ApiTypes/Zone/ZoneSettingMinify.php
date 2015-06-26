@@ -37,7 +37,7 @@ class ZoneSettingMinify extends ZoneSettingBase {
    */
   public function __construct($css_minify, $html_minify, $js_minify, $setting_id, $editable, $modified_on) {
     parent::__construct($setting_id, $editable, $modified_on);
-    $this->_setValue($css_minify, $html_minify, $js_minify);
+    $this->setInternalValue($css_minify, $html_minify, $js_minify);
   }
 
   /**
@@ -59,17 +59,44 @@ class ZoneSettingMinify extends ZoneSettingBase {
    */
   public function setValue($css_minify, $html_minify, $js_minify) {
     $this->assertEditable();
-    $this->_setValue($css_minify, $html_minify, $js_minify);
+    $this->setInternalValue($css_minify, $html_minify, $js_minify);
     $this->markForEdit();
   }
-
-  private function _setValue($css_minify, $html_minify, $js_minify) {
+  /**
+   * Sets minification settings for the zone.
+   *
+   * @param bool $css_minify
+   *   TRUE if minification enabled on css files.  FALSE otherwise.
+   * @param bool $html_minify
+   *   TRUE if minification enabled on html files.  FALSE otherwise.
+   * @param bool $js_minify
+   *   TRUE if minification enabled on js files.  FALSE otherwise.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   Exception is thrown if one of the values does match the method's
+   *   signature.
+   */
+  private function setInternalValue($css_minify, $html_minify, $js_minify) {
     $this->assertValidValue($css_minify, $html_minify, $js_minify);
     $this->css = $css_minify;
     $this->html = $html_minify;
     $this->js = $js_minify;
   }
 
+
+  /**
+   * Asserts that the minify values are valid.
+   *
+   * @param bool $css_minify
+   *   Minification settings for css.
+   * @param bool $html_minify
+   *   Minification settings for html.
+   * @param bool $js_minify
+   *   Minification settings for js.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   Thrown when one of the minify values is invalid.
+   */
   public function assertValidValue($css_minify, $html_minify, $js_minify) {
     $valid_css = is_bool(filter_var($css_minify, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
     $valid_html = is_bool(filter_var($html_minify, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));

@@ -43,9 +43,9 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
    */
   public function __construct($status, $mobile_subdomain, $strip_uri, $setting_id, $editable, $modified_on) {
     parent::__construct($setting_id, $editable, $modified_on);
-    $this->setIsMobileRedirectEnabled($status);
-    $this->setMobileSubdomain($mobile_subdomain);
-    $this->setIsStripUriEnabled($strip_uri);
+    $this->setInternalIsMobileRedirectEnabled($status);
+    $this->setInternalMobileSubdomain($mobile_subdomain);
+    $this->setInternalIsStripUriEnabled($strip_uri);
   }
 
   /**
@@ -79,7 +79,7 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
   }
 
   /**
-   * Sets if mobile redirects are enabled.
+   * Sets if mobile redirects are enabled and marks as edited.
    *
    * @param bool $mobile_redirect_enabled
    *   TRUE for enabling mobile redirects.  FALSE otherwise.
@@ -91,16 +91,36 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
    */
   public function setIsMobileRedirectEnabled($mobile_redirect_enabled) {
     $this->assertEditable();
-    $this->_setIsMobileRedirectEnabled($mobile_redirect_enabled);
+    $this->setInternalIsMobileRedirectEnabled($mobile_redirect_enabled);
     $this->markForEdit();
   }
 
-  private function _setIsMobileRedirectEnabled($mobile_redirect_enabled) {
+  /**
+   * Sets if mobile redirects are enabled.
+   *
+   * @param bool $mobile_redirect_enabled
+   *   TRUE for enabling mobile redirects.  FALSE otherwise.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   Exception thrown if an invalid value is passed into the setter.
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareNotModifiableException
+   *   Exception thrown if the setting is read-only.
+   */
+  private function setInternalIsMobileRedirectEnabled($mobile_redirect_enabled) {
     $this->assertValidMobileRedirectEnabledValue($mobile_redirect_enabled);
     $this->isMobileRedirectEnabled = $mobile_redirect_enabled;
   }
 
-  public function assertValidMobileRedirectEnabledValue($mobile_redirect_enabled){
+  /**
+   * Asserts that the value is valid.
+   *
+   * @param bool $mobile_redirect_enabled
+   *   Variable to test.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   When the value is invalid an exception is thrown.
+   */
+  public function assertValidMobileRedirectEnabledValue($mobile_redirect_enabled) {
     $is_status_a_bool = !is_null(filter_var($mobile_redirect_enabled, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
 
     if (!$is_status_a_bool) {
@@ -108,6 +128,23 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
     }
   }
 
+
+  /**
+   * Sets the Subdomain prefix for mobile visitors.  Marks setting as edited.
+   *
+   * @param null|string $mobile_subdomain
+   *   The subdomain to set.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   Exception thrown if an invalid value is passed into the setter.
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareNotModifiableException
+   *   Exception thrown if the setting is read-only.
+   */
+  public function setMobileSubdomain($mobile_subdomain) {
+    $this->assertEditable();
+    $this->setInternalMobileSubdomain($mobile_subdomain);
+    $this->markForEdit();
+  }
 
   /**
    * Sets the Subdomain prefix you wish to redirect visitors on mobile devices.
@@ -120,20 +157,23 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
    * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareNotModifiableException
    *   Exception thrown if the setting is read-only.
    */
-  public function setMobileSubdomain($mobile_subdomain) {
-    $this->assertEditable();
-    $this->_setMobileSubdomain($mobile_subdomain);
-    $this->markForEdit();
-  }
-
-  private function _setMobileSubdomain($mobile_subdomain) {
+  private function setInternalMobileSubdomain($mobile_subdomain) {
     $this->assertValidMobileSubdomain($mobile_subdomain);
     $this->mobileSubdomain = $mobile_subdomain;
   }
 
-  public function assertValidMobileSubdomain($mobile_subdomain){
-    if(is_null($mobile_subdomain)){
-      return TRUE;
+  /**
+   * Asserts that the value is valid.
+   *
+   * @param string $mobile_subdomain
+   *   Variable to test.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   When the value is invalid an exception is thrown.
+   */
+  public function assertValidMobileSubdomain($mobile_subdomain) {
+    if (is_null($mobile_subdomain)) {
+      return;
     }
 
     $is_mobile_subdomain_string = gettype($mobile_subdomain) == 'string';
@@ -143,6 +183,23 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
     }
   }
 
+
+  /**
+   * Enables URI stripping.  Marks variable as edited.
+   *
+   * @param bool $is_strip_uri_enabled
+   *   TRUE if enabled.  False otherwise.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   Exception thrown if an invalid value is passed into the setter.
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareNotModifiableException
+   *   Exception thrown if the setting is read-only.
+   */
+  public function setIsStripUriEnabled($is_strip_uri_enabled) {
+    $this->assertEditable();
+    $this->setInternalIsStripUriEnabled($is_strip_uri_enabled);
+    $this->markForEdit();
+  }
 
   /**
    * Enables URI stripping.
@@ -155,17 +212,20 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
    * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareNotModifiableException
    *   Exception thrown if the setting is read-only.
    */
-  public function setIsStripUriEnabled($is_strip_uri_enabled) {
-    $this->assertEditable();
-    $this->_setIsStripUriEnabled($is_strip_uri_enabled);
-    $this->markForEdit();
-  }
-
-  public function _setIsStripUriEnabled($is_strip_uri_enabled) {
+  public function setInternalIsStripUriEnabled($is_strip_uri_enabled) {
     $this->assertValidStripUriValue($is_strip_uri_enabled);
     $this->isStripUriEnabled = $is_strip_uri_enabled;
   }
 
+  /**
+   * Asserts that the value is valid.
+   *
+   * @param bool $strip_uri
+   *   Variable to test.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException
+   *   When the value is invalid an exception is thrown.
+   */
   public function assertValidStripUriValue($strip_uri) {
     $is_strip_uri_a_bool = !is_null(filter_var($strip_uri, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE));
 

@@ -83,6 +83,15 @@ class ZoneSettings {
    * @var array
    * Listing of the settings which are integers.
    */
+
+  /**
+   * Gets an array of names of api settings which store integer types.
+   *
+   * Poor-man's enum.
+   *
+   * @return array
+   *   Names of api settings which store integer types
+   */
   public static function getIntegerSettings() {
     return [
       self::SETTING_BROWSER_CACHE_TTL,
@@ -92,7 +101,15 @@ class ZoneSettings {
     ];
   }
 
-  public static function getBooleanSettings(){
+  /**
+   * Gets an array of names of api settings which store boolean types.
+   *
+   * Poor-man's enum.
+   *
+   * @return array
+   *   Names of api settings which store boolean types
+   */
+  public static function getBooleanSettings() {
     return [
       self::SETTING_ADVANCED_DDOS,
       self::SETTING_ALWAYS_ONLINE,
@@ -151,11 +168,11 @@ class ZoneSettings {
             break;
 
           case self::SETTING_MOBILE_REDIRECT:
-            $isMobileRedirectEnabled = (bool) $value[self::SETTING_MOBILE_REDIRECT_ENABLED];
-            $mobileSubdomain = $value[self::SETTING_MOBILE_REDIRECT_MOBILE_SUBDOMAIN];
-            $isStripUriEnabled = (bool) $value[self::SETTING_MOBILE_REDIRECT_STRIP_URI];
+            $is_mobile_redirect_enabled = (bool) $value[self::SETTING_MOBILE_REDIRECT_ENABLED];
+            $mobile_subdomain = $value[self::SETTING_MOBILE_REDIRECT_MOBILE_SUBDOMAIN];
+            $is_strip_uri_enabled = (bool) $value[self::SETTING_MOBILE_REDIRECT_STRIP_URI];
 
-            $this->settings[$setting_name] = new ZoneSettingMobileRedirect($isMobileRedirectEnabled, $mobileSubdomain, $isStripUriEnabled,  $setting_name, $editable, $modified_time);
+            $this->settings[$setting_name] = new ZoneSettingMobileRedirect($is_mobile_redirect_enabled, $mobile_subdomain, $is_strip_uri_enabled, $setting_name, $editable, $modified_time);
             break;
 
           case self::SETTING_SECURITY_HEADER:
@@ -280,9 +297,10 @@ class ZoneSettings {
           case self::SETTING_MOBILE_REDIRECT:
             /* @var ZoneSettingMobileRedirect $setting */
             $mobile_redirect_settings = [
-              self::SETTING_MOBILE_REDIRECT_ENABLED =>$setting->isIsMobileRedirectEnabled(),
+              self::SETTING_MOBILE_REDIRECT_ENABLED => $setting->isIsMobileRedirectEnabled(),
               self::SETTING_MOBILE_REDIRECT_MOBILE_SUBDOMAIN => $setting->getMobileSubdomain(),
-              self::SETTING_MOBILE_REDIRECT_STRIP_URI => $setting->isIsStripUriEnabled()];
+              self::SETTING_MOBILE_REDIRECT_STRIP_URI => $setting->isIsStripUriEnabled()
+            ];
             $items[] = ['zoneId' => $setting_name, 'value' => $mobile_redirect_settings];
             break;
 
