@@ -4,7 +4,7 @@
                be overridden with project specific configuration.
 -->
 
-<project name="cloudflaresphpsdk" default="build" phingVersion="2.8.2">
+<project name="cloudflaresphpsdk" default="validate:all" phingVersion="2.8.2">
 
     <!-- Custom task classes -->
     <includepath classpath="${project.basedir}/phingcludes"/>
@@ -99,7 +99,7 @@
 
     <!-- Run code complexity and cleanliness checks on custom code. -->
     <target name="validate:phpmd" description="Checks custom code for complexity.">
-        <phpmd rulesets="codesize,unusedcode,cleancode">
+        <phpmd rulesets="codesize,unusedcode,cleancode,design">
             <fileset refid="custom.files"/>
             <formatter type="text" outfile="false" usefile="false"/>
         </phpmd>
