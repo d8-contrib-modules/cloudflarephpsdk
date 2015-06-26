@@ -105,6 +105,13 @@
         </phpmd>
     </target>
 
+    <!-- Checks stats on the current code. -->
+    <target name="validate:phploc" description="Checks code stats.">
+        <phploc>
+            <fileset refid="custom.files"/>
+        </phploc>
+    </target>
+
     <!-- Execute PHPUnit tests. -->
     <target name="test:phpunit"
             description="Runs units tests on src">
@@ -113,5 +120,7 @@
               logoutput="true"
               checkreturn="true"/>
     </target>
+
+
 
 </project>
