@@ -63,7 +63,7 @@
             depends="validate:all, test:all"/>
 
     <target name="validate:all" description="Runs code validation."
-            depends="validate:lint, validate:phpcs, validate:phpmd"/>
+            depends="validate:lint, validate:phpcs, validate:phpmd, validate:phploc"/>
 
     <target name="test:all" description="Runs all tests."
             depends="test:phpunit"/>
@@ -88,7 +88,6 @@
 
         <phpcodesniffer
                 standard="${repo.root}/vendor/drupal/coder/coder_sniffer/Drupal/"
-                showSniffs="true"
                 showWarnings="true"
                 haltonerror="true"
                 haltonwarning="true">
@@ -99,7 +98,7 @@
 
     <!-- Run code complexity and cleanliness checks on custom code. -->
     <target name="validate:phpmd" description="Checks custom code for complexity.">
-        <phpmd rulesets="codesize,unusedcode,cleancode,design">
+        <phpmd rulesets="codesize,unusedcode,design">
             <fileset refid="custom.files"/>
             <formatter type="text" outfile="false" usefile="false"/>
         </phpmd>
@@ -113,13 +112,21 @@
     </target>
 
     <!-- Execute PHPUnit tests. -->
-    <target name="test:phpunit"
-            description="Runs units tests on src">
-        <exec dir="${repo.root}"
-              command="phpunit"
-              logoutput="true"
-              checkreturn="true"/>
+    <target name="test:phpunit" description="Runs units tests on src">
+        <coverage-setup database="coverage.db">
+            <fileset refid="custom.files"/>
+        </coverage-setup>
+        <phpunit bootstrap="${repo.root}/tests/bootstrap.php" configuration="${repo.root}/phpunit.xml.dist" codecoverage="true" haltonfailure="true" haltonerror="true" printsummary="true">
+            <formatter type="summary" usefile="false"/>
+            <batchtest>
+                <fileset dir="${repo.root}/tests">
+                    <include name="**"/>
+                </fileset>
+            </batchtest>
+        </phpunit>
     </target>
+
+
 
 
 
