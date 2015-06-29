@@ -30,7 +30,7 @@ class ZoneSettingIntTest extends \PHPUnit_Framework_TestCase {
     new ZoneSettingInt($testResult['value'], $testResult['id'],$testResult['editable'], $testResult['modified_on']);
   }
 
-  /**
+  
    * @dataProvider zoneIntInvalidValuesProvider
    */
   public function testSetterInvalidValues($testResult) {
