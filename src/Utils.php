@@ -56,7 +56,8 @@ class Utils {
    * Parses a date-time from CloudFlare into a unix timestamp.
    *
    * @param string|NULL $str_date
-   *   A string containing a UTC ISO-8601 formated date, including microseconds.  e.g '2014-05-28T18:46:18.764425Z'
+   *   A string containing a UTC ISO-8601 formated date, including microseconds.
+   *   e.g '2014-05-28T18:46:18.764425Z'.
    *
    * @return int
    *   A unix timestamp of the date.
@@ -64,8 +65,8 @@ class Utils {
    * @throws \InvalidArgumentException
    *   Exception is thrown when an unexpected type is encountered.
    */
-  public static function parseCloudFlareDate($str_date){
-    if (is_null($str_date)){
+  public static function parseCloudFlareDate($str_date) {
+    if (is_null($str_date)) {
       return NULL;
     }
 

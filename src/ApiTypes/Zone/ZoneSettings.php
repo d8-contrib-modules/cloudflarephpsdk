@@ -142,8 +142,8 @@ class ZoneSettings {
 
     foreach ($query_results->getResult() as $raw_setting) {
       // @todo would like to add some stronger parsing/validation here and
-      // potentially break it out into a separate class with a single responsibility
-      // for parsing.
+      // Potentially break it out into a separate class with a single
+      // responsibility for parsing.
       $setting_name = $raw_setting[self::SETTING_WRAPPER_ID];
       $modified_time = Utils::parseCloudFlareDate($raw_setting[self::SETTING_WRAPPER_MODIFIED_ON]);
       $editable = $raw_setting[self::SETTING_WRAPPER_EDITABLE];
