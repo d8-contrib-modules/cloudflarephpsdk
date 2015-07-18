@@ -52,4 +52,34 @@ class Utils {
     throw new \InvalidArgumentException($message);
   }
 
+  /**
+   * Parses a date-time from CloudFlare into a unix timestamp.
+   *
+   * @param string|NULL $str_date
+   *   A string containing a UTC ISO-8601 formated date, including microseconds.  e.g '2014-05-28T18:46:18.764425Z'
+   *
+   * @return int
+   *   A unix timestamp of the date.
+   *
+   * @throws \InvalidArgumentException
+   *   Exception is thrown when an unexpected type is encountered.
+   */
+  public static function parseCloudFlareDate($str_date){
+    if (is_null($str_date)){
+      return NULL;
+    }
+
+    $timezone = new \DateTimeZone('UTC');
+    $date = \DateTime::createFromFormat('Y-m-d\TH:i:s.u\Z', $str_date, $timezone);
+    $is_date_invalid = $date === FALSE;
+
+    if ($is_date_invalid) {
+      throw new \InvalidArgumentException("The value: $str_date is an invalid.  Date fields will always be in UTC ISO-8601 format, including microseconds.  e.g '2014-05-28T18:46:18.764425Z'");
+    }
+
+    $date_output = $date->getTimestamp();
+
+    return $date_output;
+  }
+
 }

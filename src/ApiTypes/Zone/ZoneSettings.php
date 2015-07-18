@@ -6,6 +6,7 @@
 
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
 use CloudFlarePhpSdk\ApiTypes\CloudFlareApiResponse;
+use CloudFlarePhpSdk\Utils;
 
 /**
  * The zone class stores settings and parameters associated with zones.
@@ -140,8 +141,11 @@ class ZoneSettings {
     $this->id = $zone_id;
 
     foreach ($query_results->getResult() as $raw_setting) {
+      // @todo would like to add some stronger parsing/validation here and
+      // potentially break it out into a separate class with a single responsibility
+      // for parsing.
       $setting_name = $raw_setting[self::SETTING_WRAPPER_ID];
-      $modified_time = $raw_setting[self::SETTING_WRAPPER_MODIFIED_ON];
+      $modified_time = Utils::parseCloudFlareDate($raw_setting[self::SETTING_WRAPPER_MODIFIED_ON]);
       $editable = $raw_setting[self::SETTING_WRAPPER_EDITABLE];
       $value = $raw_setting[self::SETTING_WRAPPER_VALUE];
 

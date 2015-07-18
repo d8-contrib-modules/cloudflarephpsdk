@@ -78,9 +78,9 @@ class ZoneSettingMinify extends ZoneSettingBase {
    */
   private function setInternalValue($css_minify, $html_minify, $js_minify) {
     $this->assertValidValue($css_minify, $html_minify, $js_minify);
-    $this->css = $css_minify;
-    $this->html = $html_minify;
-    $this->js = $js_minify;
+    $this->css = filter_var($css_minify, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    $this->html = filter_var($html_minify, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    $this->js = filter_var($js_minify, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
   }
 
 

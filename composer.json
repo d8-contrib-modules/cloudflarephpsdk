@@ -1,5 +1,5 @@
 {
-  "name": "aweingarten/cloudflarephpsdk",
+  "name": "adweingarten/cloudflarephpsdk",
   "type": "library",
   "description": "PHP client for interacting with CloudFlare's SDK. CloudFlare is a copyright of CloudFlare, Inc.  The authors of this tool has no association with CloudFlare, Inc.",
   "keywords": ["CloudFlare", "Cloud Flare", "framework", "rest", "web service", "curl", "client", "HTTP client"],
@@ -9,7 +9,7 @@
     {
       "name": "Adam Weingarten",
       "email": "adweingarten@gmail.com",
-      "homepage": "https://github.com/aweingarten"
+      "homepage": "https://github.com/adweingarten"
     }
   ],
   "require": {

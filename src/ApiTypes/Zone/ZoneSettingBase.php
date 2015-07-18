@@ -61,7 +61,7 @@ abstract class ZoneSettingBase {
   public function __construct($setting_id, $editable, $modified_on) {
     $this->id = (string) $setting_id;
     $this->editable = (bool) $editable;
-    $this->modifiedOn = strtotime($modified_on);
+    $this->modifiedOn = $modified_on;
     $this->modifiedLocally = FALSE;
   }
 
