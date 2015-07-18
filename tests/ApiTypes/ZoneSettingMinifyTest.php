@@ -45,9 +45,14 @@ class ZoneSettingMinifyTest extends \PHPUnit_Framework_TestCase {
   public function testSetterValidValues($testResult) {
     $zone_setting = new ZoneSettingMinify($testResult['css'],$testResult['html'],$testResult['js'], $testResult['id'],$testResult['editable'], $testResult['modified_on']);
     $zone_setting->setValue($testResult['css'],$testResult['html'],$testResult['js']);
-    $this->assertEquals($zone_setting->isCssMinifyEnabled(), $testResult['css']);
-    $this->assertEquals($zone_setting->isJsMinifyEnabled(), $testResult['js']);
-    $this->assertEquals($zone_setting->isHtmlMinifyEnabled(), $testResult['html']);
+
+    $parsed_css = $zone_setting->isCssMinifyEnabled() ? 'on' : 'off';
+    $parsed_js = $zone_setting->isJsMinifyEnabled() ? 'on' : 'off';
+    $parsed_html = $zone_setting->isHtmlMinifyEnabled() ? 'on' : 'off';
+
+    $this->assertEquals($parsed_css, $testResult['css']);
+    $this->assertEquals($parsed_js, $testResult['js']);
+    $this->assertEquals($parsed_html, $testResult['html']);
   }
 
 

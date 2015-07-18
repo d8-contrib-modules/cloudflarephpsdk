@@ -28,8 +28,8 @@ class ZoneSettingBoolTest extends \PHPUnit_Framework_TestCase  {
     $this->assertEquals($testResult['editable'], $zone_setting_bool->isEditable());
     $this->assertEquals($zone_setting_bool->getZoneSettingName(), $testResult['id']);
 
-    $timestamp = strtotime("U",$zone_setting_bool->getTimeModifiedOnServer());
-    $formatted_date =  date('U',$timestamp);
+  //  $timestamp = strtotime("U",$zone_setting_bool->getTimeModifiedOnServer());
+//    $formatted_date =  date('U',$timestamp);
 //    $formatted_date = strpos($testResult['result']['modified_on'], $formatted_date) >=0;
 //    $datetime = DateTime::createFromFormat('Y-m-d\TH:i:s+', '2013-02-13T08:35:34.195Z');
   //  $this->assertEquals($timestamp,$testResult['result']['modified_on'] );
