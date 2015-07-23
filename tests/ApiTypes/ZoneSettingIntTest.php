@@ -35,7 +35,7 @@ class ZoneSettingIntTest extends \PHPUnit_Framework_TestCase {
    */
   public function testSetterInvalidValues($testResult) {
     $this->setExpectedException('CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException');
-    $zone_setting = new ZoneSettingInt(55, $testResult['id'],$testResult['editable'], $testResult['modified_on']);
+    $zone_setting = new ZoneSettingInt(45, $testResult['id'],$testResult['editable'], $testResult['modified_on']);
     $zone_setting->setValue($testResult['value']);
   }
 
