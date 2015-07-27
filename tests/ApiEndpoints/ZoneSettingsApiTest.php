@@ -121,8 +121,6 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
     $zone_settings = $api->getZoneSettings("test");
     $ddos_protection = $zone_settings->getSettingById(ZoneSettings::SETTING_ADVANCED_DDOS);
     $ddos_protection->setValue(FALSE);
-    $max_upload =  $zone_settings->getSettingById(ZoneSettings::SETTING_MAX_UPLOAD);
-    $max_upload->setValue(21);
     $minify =  $zone_settings->getSettingById(ZoneSettings::SETTING_MINIFY);
     $minify->setValue(TRUE, TRUE, TRUE);
     $mobile_redirect =  $zone_settings->getSettingById(ZoneSettings::SETTING_MOBILE_REDIRECT);

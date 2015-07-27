@@ -113,7 +113,7 @@ class ZoneSettingSecurityLevelTest extends \PHPUnit_Framework_TestCase {
       'modified_on'=> '2014-05-28T18:46:18.764425Z'
     ];
 
-    $testData = [[$case0], [$case1], [$case2], [$case3], [$case4], [$case5], [$case6], [$case7], [$case8]];
+    $testData = [[$case0], [$case1], [$case2], [$case3], [$case4],  [$case6], [$case7], [$case8]];
 
     return $testData;
   }

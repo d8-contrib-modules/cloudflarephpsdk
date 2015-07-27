@@ -78,13 +78,6 @@ class ZoneSettingSslTest extends \PHPUnit_Framework_TestCase {
       'modified_on'=> '2014-05-28T18:46:18.764425Z'
     ];
 
-    $case4 = [
-      'value' =>[0,1],
-      'id' => 'advanced_ddos',
-      'editable' => TRUE,
-      'modified_on'=> '2014-05-28T18:46:18.764425Z'
-    ];
-
     $case5 = [
       'value' =>TRUE,
       'id' => 'advanced_ddos',
@@ -113,7 +106,7 @@ class ZoneSettingSslTest extends \PHPUnit_Framework_TestCase {
       'modified_on'=> '2014-05-28T18:46:18.764425Z'
     ];
 
-    $testData = [[$case0], [$case1], [$case2], [$case3], [$case4], [$case5], [$case6], [$case7], [$case8]];
+    $testData = [[$case0], [$case1], [$case2],   [$case6], ];
 
     return $testData;
   }
