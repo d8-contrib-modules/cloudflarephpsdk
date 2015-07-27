@@ -9,9 +9,9 @@ namespace CloudFlarePhpSdk\ApiTypes\Zone;
 use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
 
 /**
- * Contains fields for a setting that has an integer value.
+ * Contains fields for a setting that only allows a specified number of values.
  */
-class ZoneSettingInt extends ZoneSettingBase {
+abstract class ZoneSettingSelectBase extends ZoneSettingBase {
 
   /**
    * The response value.
@@ -60,7 +60,7 @@ class ZoneSettingInt extends ZoneSettingBase {
    */
   private function setInternalValue($value) {
     $this->assertValidValue($value);
-    $this->value = filter_var($value, FILTER_VALIDATE_INT);
+    $this->value = $value;
   }
 
   /**
@@ -73,12 +73,8 @@ class ZoneSettingInt extends ZoneSettingBase {
    *   When the value is invalid an exception is thrown.
    */
   public function assertValidValue($value) {
-    $is_null = is_null($value);
-    $is_bool = $value === TRUE || $value === FALSE;
-    $is_int = filter_var($value, FILTER_VALIDATE_INT) !== FALSE;
-
-    if ($is_null || $is_bool || !$is_int) {
-      throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $this->value);
+    if (!in_array($value, $this->validValues())) {
+      throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $value);
     }
   }
 
@@ -99,5 +95,13 @@ class ZoneSettingInt extends ZoneSettingBase {
     parent::__construct($setting_id, $editable, $modified_on);
     $this->setInternalValue($value);
   }
+
+  /**
+   * Returns a listing of valid values for select values.
+   *
+   * @return array
+   *   Valid values for the select.
+   */
+  public abstract function validValues();
 
 }

@@ -28,7 +28,7 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
    * @param bool $status
    *   TRUE if enabled.  FALSE if disabled.
    * @param string $mobile_subdomain
-   *    Subdomain prefix you wish to redirect visitors on mobile devices to
+   *   Subdomain prefix you wish to redirect visitors on mobile devices to
    *   (subdomain must already exist).
    * @param bool $strip_uri
    *   Whether to drop the current page path and redirect to the mobile

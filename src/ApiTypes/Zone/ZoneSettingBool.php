@@ -47,9 +47,14 @@ class ZoneSettingBool extends ZoneSettingBase {
    *   Exception thrown if a non-bool is passed.
    */
   public function setValue($value) {
+    $original_value = $this->value;
+
     $this->assertEditable($value);
     $this->setInternalValue($value);
-    $this->markForEdit();
+
+    if ($original_value !== $value) {
+      $this->markForEdit();
+    }
   }
 
   /**

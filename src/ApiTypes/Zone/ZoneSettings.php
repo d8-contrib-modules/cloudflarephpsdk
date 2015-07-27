@@ -95,12 +95,28 @@ class ZoneSettings {
    */
   public static function getIntegerSettings() {
     return [
-      self::SETTING_BROWSER_CACHE_TTL,
-      self::SETTING_CHALLENGE_TTL,
-      self::SETTING_EDGE_CACHE_TTL,
-      self::SETTING_MAX_UPLOAD
+      self::SETTING_MAX_UPLOAD,
+      self::SETTING_EDGE_CACHE_TTL
+
     ];
   }
+
+
+  /**
+   * Gets an array of names of api settings with finite list of valid values.
+   *
+   * @return array
+   *   Names of api settings.
+   */
+  public static function getSelectSettings() {
+    return [
+      self::SETTING_BROWSER_CACHE_TTL,
+      self::SETTING_CHALLENGE_TTL,
+      self::SETTING_SECURITY_LEVEL,
+      self::SETTING_SSL,
+    ];
+  }
+
 
   /**
    * Gets an array of names of api settings which store boolean types.
@@ -154,15 +170,18 @@ class ZoneSettings {
         $this->settings[$setting_name] = new ZoneSettingBool($value, $setting_name, $editable, $modified_time);
       }
 
-      // Parse the integer values in to ZoneSettingInts.
-      elseif (in_array($setting_name, $this->getIntegerSettings())) {
-        $this->settings[$setting_name] = new ZoneSettingInt($value, $setting_name, $editable, $modified_time);
-      }
-
       // The remaining types are specific one offs that have additional logic
       // which cannot be accommodated by ZoneSettingBool or ZoneSettingInt.
       else {
         switch ($setting_name) {
+          case self::SETTING_BROWSER_CACHE_TTL:
+            $this->settings[$setting_name] = new ZoneSettingBrowserCacheTtl($value, $setting_name, $editable, $modified_time);
+            break;
+
+          case self::SETTING_CHALLENGE_TTL:
+            $this->settings[$setting_name] = new ZoneSettingChallengeTtl($value, $setting_name, $editable, $modified_time);
+            break;
+
           case self::SETTING_MINIFY:
             $css = $value[self::SETTING_MINIFY_CSS];
             $html = $value[self::SETTING_MINIFY_HTML];
@@ -275,13 +294,13 @@ class ZoneSettings {
       if (in_array($setting_name, $this->getBooleanSettings())) {
         /* @var ZoneSettingBool $setting */
         $bool_val = $setting->getValue() ? 'on' : 'off';
-        $items[] = ['zoneId' => $setting_name, 'value' => $bool_val];
+        $items[] = ['id' => $setting_name, 'value' => $bool_val];
       }
 
       // Parse the integer values in to ZoneSettingInts.
       elseif (in_array($setting_name, $this->getIntegerSettings())) {
         /* @var ZoneSettingInt $setting */
-        $items[] = ['zoneId' => $setting_name, 'value' => $setting->getValue()];
+        $items[] = ['id' => $setting_name, 'value' => $setting->getValue()];
       }
 
       // The remaining types are specific one offs that have additional logic
@@ -290,12 +309,12 @@ class ZoneSettings {
         switch ($setting_name) {
           case self::SETTING_MINIFY:
             /* @var ZoneSettingMinify $setting */
-            $minify_setting[] = [
-              self::SETTING_MINIFY_CSS => $setting->isCssMinifyEnabled(),
-              self::SETTING_MINIFY_JS  => $setting->isJsMinifyEnabled(),
-              self::SETTING_MINIFY_HTML => $setting->isHtmlMinifyEnabled()
+            $minify_setting = [
+              self::SETTING_MINIFY_CSS => $setting->isCssMinifyEnabled() ? 'on' : 'off',
+              self::SETTING_MINIFY_JS  => $setting->isJsMinifyEnabled() ? 'on' : 'off',
+              self::SETTING_MINIFY_HTML => $setting->isHtmlMinifyEnabled() ? 'on' : 'off'
             ];
-            $items[] = ['zoneId' => $setting_name, 'value' => $minify_setting];
+            $items[] = ['id' => $setting_name, 'value' => $minify_setting];
             break;
 
           case self::SETTING_MOBILE_REDIRECT:
@@ -305,22 +324,19 @@ class ZoneSettings {
               self::SETTING_MOBILE_REDIRECT_MOBILE_SUBDOMAIN => $setting->getMobileSubdomain(),
               self::SETTING_MOBILE_REDIRECT_STRIP_URI => $setting->isIsStripUriEnabled()
             ];
-            $items[] = ['zoneId' => $setting_name, 'value' => $mobile_redirect_settings];
+            $items[] = ['id' => $setting_name, 'value' => $mobile_redirect_settings];
             break;
 
           case self::SETTING_SECURITY_HEADER:
             /* @var ZoneSettingSecurityHeader $setting */
-            $items[] = ['zoneId' => $setting_name, 'value' => $setting->getValue()];
+            $items[] = ['id' => $setting_name, 'value' => $setting->getValue()];
             break;
 
+          case self::SETTING_BROWSER_CACHE_TTL:
+          case self::SETTING_CHALLENGE_TTL:
           case self::SETTING_SECURITY_LEVEL:
-            /* @var ZoneSettingSecurityLevel $setting */
-            $items[] = ['zoneId' => $setting_name, 'value' => $setting->getValue()];
-            break;
-
           case self::SETTING_SSL:
-            /* @var ZoneSettingSsl $setting */
-            $items[] = ['zoneId' => $setting_name, 'value' => $setting->getValue()];
+            $items[] = ['id' => $setting_name, 'value' => $setting->getValue()];
             break;
         }
       }
