@@ -34,7 +34,7 @@ class CloudFlareHttpException extends CloudFlareException {
   public function __construct($http_response_code, $message, \Exception $previous = NULL) {
     parent::__construct($message, $http_response_code, $previous);
     $this->httpResponseCode = $http_response_code;
-    $this->message = "Failed to make a Http connection to the endpoint.";
+    $this->message = $message;
   }
 
 }

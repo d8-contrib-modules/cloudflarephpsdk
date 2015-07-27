@@ -41,4 +41,5 @@ class ZoneSettingChallengeTtl extends ZoneSettingSelectBase {
 
     return $value;
   }
+
 }
