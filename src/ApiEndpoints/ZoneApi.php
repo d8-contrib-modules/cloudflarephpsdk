@@ -26,8 +26,8 @@ class ZoneApi extends CloudFlareAPI {
    * @param NULL|string $email
    *   Email address of API user.
    */
-  public function __construct($apikey, $email = NULL) {
-    parent::__construct($apikey, $email);
+  public function __construct($apikey, $email = NULL, $mock = NULL) {
+    parent::__construct($apikey, $email, $mock);
   }
 
   /**
