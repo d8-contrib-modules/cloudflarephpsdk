@@ -1,5 +1,5 @@
 {
-  "name": "adweingarten/cloudflarephpsdk",
+  "name": "d8-contrib-modules/cloudflarephpsdk",
   "type": "library",
   "description": "PHP client for interacting with CloudFlare's SDK. CloudFlare is a copyright of CloudFlare, Inc.  The authors of this tool has no association with CloudFlare, Inc.",
   "keywords": ["CloudFlare", "Cloud Flare", "framework", "rest", "web service", "curl", "client", "HTTP client"],
@@ -9,12 +9,12 @@
     {
       "name": "Adam Weingarten",
       "email": "adweingarten@gmail.com",
-      "homepage": "https://github.com/adweingarten"
+      "homepage": "https://github.com/d8-contrib-modules/cloudflarephpsdk"
     }
   ],
   "require": {
     "php": ">=5.5.0",
-    "guzzlehttp/guzzle": "~5.0"
+    "guzzlehttp/guzzle": "dev-master"
   },
   "require-dev": {
     "drupal/coder":                 "8.2.*",
