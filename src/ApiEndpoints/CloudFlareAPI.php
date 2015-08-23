@@ -7,8 +7,8 @@
 
 namespace CloudFlarePhpSdk\ApiEndpoints;
 
-use GuzzleHttp\Subscriber\Mock;
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\RequestException;
@@ -57,28 +57,20 @@ abstract class CloudFlareAPI {
    * @param string $email
    *   Email address associated with your CloudFlare account.
    */
-  public function __construct($apikey, $email) {
+  public function __construct($apikey, $email, $mock_handler = NULL) {
     $this->apikey = $apikey;
     $this->email = $email;
-    $this->client = new Client([
-      'base_url' => self::API_ENDPOINT_BASE,
-      'defaults' => [
-        'headers' => ['X-Auth-Key' => $apikey, 'X-Auth-Email' => $email, 'Content-Type' => 'application/json'],
-        'verify' => FALSE
-      ]
-    ]);
-  }
+    $headers = ['X-Auth-Key' => $apikey, 'X-Auth-Email' => $email, 'Content-Type' => 'application/json'];
+    $client_params = [
+      'base_uri' => self::API_ENDPOINT_BASE,
+      'headers' => $headers,
+    ];
 
-  /**
-   * Sets a mock API response.
-   *
-   * This is only intended to be used for automated unit testing.
-   *
-   * @param \GuzzleHttp\Mock $mock
-   *   Mock Response Object.
-   */
-  public function setMockApi(Mock $mock) {
-    $this->client->getEmitter()->attach($mock);
+    if ($mock_handler != NULL) {
+      $client_params['handler'] = $mock_handler;
+    }
+
+    $this->client = new Client($client_params);
   }
 
   /**

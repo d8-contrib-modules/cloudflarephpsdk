@@ -7,9 +7,9 @@ use CloudFlarePhpSdk\ApiTypes\Zone\Zone;
 use CloudFlarePhpSdk\ApiTypes\Zone\ZoneSettings;
 use CloudFlarePhpSdk\ApiTypes\Zone\ZoneSettingSecurityLevel;
 use CloudFlarePhpSdk\ApiTypes\Zone\ZoneSettingSsl;
-use GuzzleHttp\Subscriber\Mock;
-use GuzzleHttp\Stream\Stream;
-use GuzzleHttp\Message\Response;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7\Stream;
+use GuzzleHttp\Psr7\Response;
 
 class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
    /* function testZoneListing(){
@@ -51,12 +51,11 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
   function testGetZoneSettings($zoneSettingsInfoResponse) {
     $arr_json = json_decode($zoneSettingsInfoResponse, TRUE);
 
-    $mock = new Mock([
-      new Response(200, [], Stream::factory($zoneSettingsInfoResponse)),
+    $mock = new MockHandler([
+      new Response(200, [], $zoneSettingsInfoResponse),
     ]);
 
-    $api = new ZoneApi("api_key", "email");
-    $api->setMockApi($mock);
+    $api = new ZoneApi("api_key", "email", $mock);
     $zone_settings = $api->getZoneSettings("test");
 
 
@@ -83,12 +82,11 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
  * @dataProvider getPurgeIndividualFilesResponse
  */
   function testPurgeIndividualFiles($response){
-    $mock = new Mock([
-      new Response(200, [], Stream::factory($response)),
+    $mock = new MockHandler([
+      new Response(200, [], $response),
     ]);
 
-    $api = new ZoneApi("api_key", "email");
-    $api->setMockApi($mock);
+    $api = new ZoneApi("api_key", "email", $mock);
     $api->purgeIndividualFiles("blah",['/alpha', 'beta']);
   }
 
@@ -96,12 +94,11 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
    * @dataProvider getPurgeIndividualFilesResponse
    */
   function testPurgeFiles($response){
-    $mock = new Mock([
-      new Response(200, [], Stream::factory($response)),
+    $mock = new MockHandler([
+      new Response(200, [], $response),
     ]);
 
-    $api = new ZoneApi("api_key", "email");
-    $api->setMockApi($mock);
+    $api = new ZoneApi("api_key", "email", $mock);
     $api->purgeAllFiles("zone_id");
   }
 
@@ -109,15 +106,14 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
    * @dataProvider editZoneResponse
    */
   function testUpdateZone($editResponse, $zoneSettingResponse){
-    $mock = new Mock([
-      new Response(200, [], Stream::factory($zoneSettingResponse)),
-      new Response(200, [], Stream::factory($editResponse)),
+    $mock = new MockHandler([
+      new Response(200, [], $zoneSettingResponse),
+      new Response(200, [], $editResponse),
     ]);
 
    // $zone_settings = new ZoneSettings('myid',)
 
-    $api = new ZoneApi("api_key", "email");
-    $api->setMockApi($mock);
+    $api = new ZoneApi("api_key", "email", $mock);
     $zone_settings = $api->getZoneSettings("test");
     $ddos_protection = $zone_settings->getSettingById(ZoneSettings::SETTING_ADVANCED_DDOS);
     $ddos_protection->setValue(FALSE);
@@ -144,17 +140,13 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
   function testInvalidHttpResponses($code, $response_header){
     $this->setExpectedException('CloudFlarePhpSdk\Exceptions\CloudFlareHttpException');
 
-    $mock = new Mock([
+    $mock = new MockHandler([
       new Response($code, $response_header),
     ]);
 
-    $api = new ZoneApi("api_key", "email");
-    $api->setMockApi($mock);
+    $api = new ZoneApi("api_key", "email", $mock);
     $api->listZones();
   }
-
-
-
 
   function httpMockErrorResponses() {
     $case0 =[

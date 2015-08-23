@@ -299,7 +299,6 @@ class ZoneSettings {
 
       // Parse the integer values in to ZoneSettingInts.
       elseif (in_array($setting_name, $this->getIntegerSettings())) {
-        /* @var ZoneSettingInt $setting */
         $items[] = ['id' => $setting_name, 'value' => $setting->getValue()];
       }
 
