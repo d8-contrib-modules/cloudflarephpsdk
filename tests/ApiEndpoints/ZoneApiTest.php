@@ -2,9 +2,9 @@
 
 namespace src\Unit\ApiEndpoints;
 
-use GuzzleHttp\Subscriber\Mock;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
 use CloudFlarePhpSdk\ApiTypes;
 use CloudFlarePhpSdk\ApiEndpoints\ZoneApi;
 use CloudFlarePhpSdk\Exceptions\CloudFlareApiException;
@@ -17,12 +17,11 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
   public function testZoneSettingBoolConstructor($zoneDataResponse){
     $arr_json = json_decode($zoneDataResponse,true);
 
-    $mock = new Mock([
-      new Response(200,[], Stream::factory($zoneDataResponse)),
+    $mock = new MockHandler([
+      new Response(200,[], $zoneDataResponse),
     ]);
 
-    $api = new ZoneApi("api_key", "email");
-    $api->setMockApi($mock);
+    $api = new ZoneApi("api_key", "email", $mock);
     $zones = $api->listZones();
 
 
@@ -41,12 +40,11 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
    */
   public function testFailedRequestCodes($code){
     $this->setExpectedException('CloudFlarePhpSdk\Exceptions\CloudFlareHttpException');
-    $mock = new Mock([
-      new Response($code,[], Stream::factory("This could be a problem.")),
+    $mock = new MockHandler([
+      new Response($code,[], "This could be a problem."),
     ]);
 
-    $api = new ZoneApi("api_key", "email");
-    $api->setMockApi($mock);
+    $api = new ZoneApi("api_key", "email", $mock);
     $zones = $api->listZones();
   }
 
@@ -55,22 +53,13 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
    */
   public function testFailedApiResponses($code){
     $this->setExpectedException('CloudFlarePhpSdk\Exceptions\CloudFlareApiException');
-    $mock = new Mock([
-      new Response(200,[], Stream::factory($code)),
+    $mock = new MockHandler([
+      new Response(200,[], $code),
     ]);
 
-    $api = new ZoneApi("api_key", "email");
-    $api->setMockApi($mock);
+    $api = new ZoneApi("api_key", "email", $mock);
     $zones = $api->listZones();
   }
-
-
-
-
-
-
-
-
 
   /**
    * Checks that the Parsed zone matches raw zone data.
