@@ -9,7 +9,7 @@ The API has been designed with ease of use in mind.
 Note: CloudFlare is a trademark of CloudFlare Inc.  This project is maintained independently of CloudFlare inc.
 
 
-[![Automated Build](https://travis-ci.org/adweingarten/cloudflarephpsdk.svg?branch=master)](https://travis-ci.org/adweingarten/cloudflarephpsdk) [![Latest Stable Version](https://poser.pugx.org/adweingarten/cloudflarephpsdk/v/stable)](https://packagist.org/packages/adweingarten/cloudflarephpsdk) [![Total Downloads](https://poser.pugx.org/adweingarten/cloudflarephpsdk/downloads)](https://packagist.org/packages/adweingarten/cloudflarephpsdk) [![Latest Unstable Version](https://poser.pugx.org/adweingarten/cloudflarephpsdk/v/unstable)](https://packagist.org/packages/adweingarten/cloudflarephpsdk) [![License](https://poser.pugx.org/adweingarten/cloudflarephpsdk/license)](https://packagist.org/packages/adweingarten/cloudflarephpsdk)
+[![Automated Build](https://travis-ci.org/d8-contrib-modules/cloudflarephpsdk.svg?branch=master)](https://travis-ci.org/d8-contrib-modules/cloudflarephpsdk) [![Latest Stable Version](https://poser.pugx.org/d8-contrib-modules/cloudflarephpsdk/v/stable)](https://packagist.org/packages/d8-contrib-modules/cloudflarephpsdk) [![Total Downloads](https://poser.pugx.org/d8-contrib-modules/cloudflarephpsdk/downloads)](https://packagist.org/packages/d8-contrib-modules/cloudflarephpsdk) [![Latest Unstable Version](https://poser.pugx.org/d8-contrib-modules/cloudflarephpsdk/v/unstable)](https://packagist.org/packages/d8-contrib-modules/cloudflarephpsdk) [![License](https://poser.pugx.org/d8-contrib-modules/cloudflarephpsdk/license)](https://packagist.org/packages/d8-contrib-modules/cloudflarephpsdk)
  
 
 ## Usage
