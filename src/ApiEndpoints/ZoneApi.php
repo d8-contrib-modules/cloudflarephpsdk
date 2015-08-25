@@ -119,4 +119,21 @@ class ZoneApi extends CloudFlareAPI {
     $this->makeRequest(self::REQUEST_TYPE_DELETE, $request_path, ['files' => $files]);
   }
 
+  /**
+   * Purges tags from CloudFlare.
+   *
+   * @param string $zone_id
+   *   The zoneId for the zone to access.
+   * @param array $tags
+   *   The list of tags to purge.
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareApiException
+   *   Throws an exception if there is an application level error returned from
+   *   the API.
+   */
+  public function purgeTags($zone_id, array $tags) {
+    $request_path = strtr('zones/:identifier/purge_cache', [':identifier' => $zone_id]);
+    $this->makeRequest(self::REQUEST_TYPE_DELETE, $request_path, ['tags' => $tags]);
+  }
+
 }
