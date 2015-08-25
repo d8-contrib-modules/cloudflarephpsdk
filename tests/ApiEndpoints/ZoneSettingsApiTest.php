@@ -93,6 +93,18 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
   /**
    * @dataProvider getPurgeIndividualFilesResponse
    */
+  function testPurgeCacheTags($response){
+    $mock = new MockHandler([
+      new Response(200, [], $response),
+    ]);
+
+    $api = new ZoneApi("api_key", "email", $mock);
+    $api->purgeTags("blah",['/alpha', 'beta']);
+  }
+
+  /**
+   * @dataProvider getPurgeIndividualFilesResponse
+   */
   function testPurgeFiles($response){
     $mock = new MockHandler([
       new Response(200, [], $response),
