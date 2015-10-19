@@ -47,6 +47,18 @@ abstract class CloudFlareAPI {
   // The CloudFlare API sets a maximum of 1,200 requests in a 5-minute period.
   const API_RATE_LIMIT = 1200;
 
+  // The CloudFlare API sets a maximum of 200 requests in a 24-hour period.
+  const API_TAG_PURGE_DAILY_RATE_LIMIT = 200;
+
+  // Max Number of
+  const MAX_PURGES_PER_REQUEST = 30;
+
+  // Time in seconds.
+  const HTTP_CONNECTION_TIMEOUT = 1.5;
+
+  // Time in seconds.
+  const HTTP_TIMEOUT = 3;
+
   /**
    * Constructor for the Cloudflare SDK object.
    *
@@ -64,6 +76,8 @@ abstract class CloudFlareAPI {
     $client_params = [
       'base_uri' => self::API_ENDPOINT_BASE,
       'headers' => $headers,
+      'timeout'         => self::HTTP_TIMEOUT,
+      'connect_timeout' => self::HTTP_CONNECTION_TIMEOUT,
     ];
 
     if ($mock_handler != NULL) {
@@ -129,7 +143,7 @@ abstract class CloudFlareAPI {
     catch (RequestException $re) {
       $http_response_code = $re->getCode();
       $http_response_message = $re->getMessage();
-      throw new CloudFlareHttpException($http_response_code, $http_response_message, $re->getPrevious());
+      throw new CloudFlareTimeoutException($http_response_code, $http_response_message, $re->getPrevious());
     }
 
     $http_response_code = $this->lastHttpResponse->getStatusCode();

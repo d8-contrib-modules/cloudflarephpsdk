@@ -6,7 +6,6 @@
  */
 
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
-use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
 
 /**
  * Contains fields for a setting that has an on/off value.
@@ -31,7 +30,7 @@ class ZoneSettingSsl extends ZoneSettingSelectBase {
       self::SSL_OFF,
       self::SSL_FLEXIBLE,
       self::SSL_FULL,
-      self::SSL_STRICT
+      self::SSL_STRICT,
     ];
   }
 

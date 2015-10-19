@@ -6,7 +6,6 @@
  */
 
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
-use CloudFlarePhpSdk\ApiTypes\Zone\Zone;
 
 
 /**

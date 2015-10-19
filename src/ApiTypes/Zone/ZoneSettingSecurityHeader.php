@@ -85,7 +85,7 @@ class ZoneSettingSecurityHeader extends ZoneSettingBase {
         'enabled' => $enabled,
         'max_age' => $max_age,
         'include_subdomains' => $include_subdomains,
-      ]
+      ],
     ];
   }
 

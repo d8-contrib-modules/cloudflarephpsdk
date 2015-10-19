@@ -7,7 +7,6 @@
 
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
 use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
-use CloudFlarePhpSdk\Utils;
 
 /**
  * Contains fields for ZoneSettingMobileRedirect.

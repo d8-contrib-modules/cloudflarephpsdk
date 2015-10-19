@@ -96,7 +96,7 @@ class ZoneSettings {
   public static function getIntegerSettings() {
     return [
       self::SETTING_MAX_UPLOAD,
-      self::SETTING_EDGE_CACHE_TTL
+      self::SETTING_EDGE_CACHE_TTL,
 
     ];
   }
@@ -311,7 +311,7 @@ class ZoneSettings {
             $minify_setting = [
               self::SETTING_MINIFY_CSS => $setting->isCssMinifyEnabled() ? 'on' : 'off',
               self::SETTING_MINIFY_JS  => $setting->isJsMinifyEnabled() ? 'on' : 'off',
-              self::SETTING_MINIFY_HTML => $setting->isHtmlMinifyEnabled() ? 'on' : 'off'
+              self::SETTING_MINIFY_HTML => $setting->isHtmlMinifyEnabled() ? 'on' : 'off',
             ];
             $items[] = ['id' => $setting_name, 'value' => $minify_setting];
             break;
@@ -321,7 +321,7 @@ class ZoneSettings {
             $mobile_redirect_settings = [
               self::SETTING_MOBILE_REDIRECT_ENABLED => $setting->isIsMobileRedirectEnabled(),
               self::SETTING_MOBILE_REDIRECT_MOBILE_SUBDOMAIN => $setting->getMobileSubdomain(),
-              self::SETTING_MOBILE_REDIRECT_STRIP_URI => $setting->isIsStripUriEnabled()
+              self::SETTING_MOBILE_REDIRECT_STRIP_URI => $setting->isIsStripUriEnabled(),
             ];
             $items[] = ['id' => $setting_name, 'value' => $mobile_redirect_settings];
             break;

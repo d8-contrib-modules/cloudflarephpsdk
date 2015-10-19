@@ -8,15 +8,12 @@
 namespace CloudFlarePhpSdk\ApiEndpoints;
 use CloudFlarePhpSdk\ApiTypes\Zone\Zone;
 use CloudFlarePhpSdk\ApiTypes\Zone\ZoneSettings;
-use GuzzleHttp;
 
 
 /**
  * Provides functionality for reading and manipulating CloudFlare zones via API.
  */
 class ZoneApi extends CloudFlareAPI {
-
-  const MAX_PURGES_PER_REQUEST = 30;
 
   /**
    * Constructor for new instance of ZoneApi.

@@ -36,7 +36,7 @@ class ZoneSettingChallengeTtl extends ZoneSettingSelectBase {
       86400,
       604800,
       2592000,
-      31536000
+      31536000,
     ];
 
     return $value;
