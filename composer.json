@@ -3,13 +3,13 @@
   "type": "library",
   "description": "PHP client for interacting with CloudFlare's SDK. CloudFlare is a copyright of CloudFlare, Inc.  The authors of this tool has no association with CloudFlare, Inc.",
   "keywords": ["CloudFlare", "Cloud Flare", "framework", "rest", "web service", "curl", "client", "HTTP client"],
-  "homepage": "https://github.com/aweingarten/cloudflarephpsdk",
+  "homepage": "https://github.com/d8-contrib-modules/cloudflarephpsdk",
   "license": "GPL-2.0+",
   "authors": [
     {
       "name": "Adam Weingarten",
-      "email": "adweingarten@gmail.com",
-      "homepage": "https://github.com/d8-contrib-modules/cloudflarephpsdk"
+      "email": "aweingarten@users.noreply.github.com",
+      "homepage": "https://github.com/aweingarten"
     }
   ],
   "require": {
@@ -17,14 +17,14 @@
     "guzzlehttp/guzzle": "~6.1"
   },
   "require-dev": {
-    "drupal/coder":                 "8.2.*",
-    "phploc/phploc":                "2.0.*@dev",
-    "sebastian/phpcpd":             "2.0.*@dev",
+    "drupal/coder": "8.2.*",
+    "phploc/phploc": "2.0.*@dev",
+    "sebastian/phpcpd": "2.0.*@dev",
     "phpunit/phpunit": "~4.8",
-    "squizlabs/php_codesniffer":    "2.*",
-    "pdepend/pdepend":              "1.1.*",
-    "phing/phing":                  "2.11.*",
-    "phpmd/phpmd":                  "1.*"
+    "squizlabs/php_codesniffer": "2.*",
+    "pdepend/pdepend": "1.1.*",
+    "phing/phing": "2.11.*",
+    "phpmd/phpmd": "1.*"
   },
   "autoload": {
     "psr-4": {
