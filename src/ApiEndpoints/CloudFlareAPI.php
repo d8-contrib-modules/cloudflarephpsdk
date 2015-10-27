@@ -7,8 +7,6 @@
 
 namespace CloudFlarePhpSdk\ApiEndpoints;
 
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\RequestException;
@@ -16,6 +14,7 @@ use GuzzleHttp\Exception\RequestException;
 use CloudFlarePhpSdk\ApiTypes\CloudFlareApiResponse;
 use CloudFlarePhpSdk\Exceptions\CloudFlareHttpException;
 use CloudFlarePhpSdk\Exceptions\CloudFlareApiException;
+use CloudFlarePhpSdk\Exceptions\CloudFlareTimeoutException;
 
 /**
  * Base functionality for interacting with CloudFlare's API.
@@ -47,6 +46,18 @@ abstract class CloudFlareAPI {
   // The CloudFlare API sets a maximum of 1,200 requests in a 5-minute period.
   const API_RATE_LIMIT = 1200;
 
+  // The CloudFlare API sets a maximum of 200 requests in a 24-hour period.
+  const API_TAG_PURGE_DAILY_RATE_LIMIT = 200;
+
+  // Max Number of.
+  const MAX_TAG_PURGES_PER_REQUEST = 30;
+
+  // Time in seconds.
+  const HTTP_CONNECTION_TIMEOUT = 1.5;
+
+  // Time in seconds.
+  const HTTP_TIMEOUT = 3;
+
   /**
    * Constructor for the Cloudflare SDK object.
    *
@@ -60,10 +71,17 @@ abstract class CloudFlareAPI {
   public function __construct($apikey, $email, $mock_handler = NULL) {
     $this->apikey = $apikey;
     $this->email = $email;
-    $headers = ['X-Auth-Key' => $apikey, 'X-Auth-Email' => $email, 'Content-Type' => 'application/json'];
+    $headers = [
+      'X-Auth-Key' => $apikey,
+      'X-Auth-Email' => $email,
+      'Content-Type' => 'application/json',
+    ];
+
     $client_params = [
       'base_uri' => self::API_ENDPOINT_BASE,
       'headers' => $headers,
+      'timeout'         => self::HTTP_TIMEOUT,
+      'connect_timeout' => self::HTTP_CONNECTION_TIMEOUT,
     ];
 
     if ($mock_handler != NULL) {
@@ -116,20 +134,20 @@ abstract class CloudFlareAPI {
 
         case self::REQUEST_TYPE_DELETE:
           $this->lastHttpResponse = $this->client->delete($api_end_point, ['json' => $request_params]);
-          // json,data
+          // json,data.
           break;
       }
     }
     catch (ServerException $se) {
       $http_response_code = $se->getCode();
       $http_response_message = $se->getMessage();
-      throw new CloudFlareHttpException($http_response_code, $http_response_message, $se->getPrevious());
+      throw new CloudFlareHttpException($http_response_message, $http_response_code, $se->getPrevious());
     }
 
     catch (RequestException $re) {
       $http_response_code = $re->getCode();
       $http_response_message = $re->getMessage();
-      throw new CloudFlareHttpException($http_response_code, $http_response_message, $re->getPrevious());
+      throw new CloudFlareTimeoutException($http_response_message, $http_response_code, $re->getPrevious());
     }
 
     $http_response_code = $this->lastHttpResponse->getStatusCode();
@@ -138,7 +156,7 @@ abstract class CloudFlareAPI {
     // HTTP level error.
     if (!$is_status_code_good) {
       $http_response_message = $this->lastHttpResponse->getReasonPhrase();
-      throw new CloudFlareHttpException($http_response_code, $http_response_message, NULL);
+      throw new CloudFlareHttpException($http_response_message, $http_response_code, NULL);
     }
 
     // Note this behavior was introduced in Guzzle 6.

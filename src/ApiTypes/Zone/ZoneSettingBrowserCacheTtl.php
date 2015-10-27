@@ -48,7 +48,7 @@ class ZoneSettingBrowserCacheTtl extends ZoneSettingSelectBase {
       2678400,
       5356800,
       16070400,
-      31536000
+      31536000,
     ];
 
     return $value;

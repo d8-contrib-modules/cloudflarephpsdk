@@ -24,14 +24,14 @@ class CloudFlareHttpException extends CloudFlareException {
   /**
    * Constructor for CloudFlareHTTPException.
    *
-   * @param string $http_response_code
-   *   The HTTP response code returned by the API server.
    * @param string $message
    *   The message returned in the HTTP response.
+   * @param string $http_response_code
+   *   The HTTP response code returned by the API server.
    * @param \Exception $previous
    *   Previous exceptions thrown higher in the call-stack.
    */
-  public function __construct($http_response_code, $message, \Exception $previous = NULL) {
+  public function __construct($message, $http_response_code, \Exception $previous = NULL) {
     parent::__construct($message, $http_response_code, $previous);
     $this->httpResponseCode = $http_response_code;
     $this->message = $message;
