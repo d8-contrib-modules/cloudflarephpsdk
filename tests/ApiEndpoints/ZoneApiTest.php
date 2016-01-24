@@ -18,12 +18,11 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
     $arr_json = json_decode($zoneDataResponse,true);
 
     $mock = new MockHandler([
-      new Response(200,[], $zoneDataResponse),
+      new Response(200, [], $zoneDataResponse),
     ]);
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $zones = $api->listZones();
-
 
     for($i = 0;  $i<count($zones); $i++) {
       /** @var \CloudFlarePhpSdk\ApiTypes\Zone\Zone $zone */
@@ -44,20 +43,20 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
       new Response($code,[], "This could be a problem."),
     ]);
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $zones = $api->listZones();
   }
 
   /**
    * @dataProvider getFailedApiResponses
    */
-  public function testFailedApiResponses($code){
+  public function testFailedApiResponses($code) {
     $this->setExpectedException('CloudFlarePhpSdk\Exceptions\CloudFlareApiException');
     $mock = new MockHandler([
       new Response(200,[], $code),
     ]);
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $zones = $api->listZones();
   }
 
@@ -83,9 +82,9 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
     $this->assertEquals($zone->getModifiedOn(),$zone_json['modified_on']);
     $this->assertEquals($zone->getCreatedOn(),$zone_json['created_on']);
     // $this->assertEquals($zone->getMeta(),$zone_json['meta']);
-    $this->assertEquals($zone->getOwner(),$zone_json['owner']);
-    $this->assertEquals($zone->getPermissions(),$zone_json['permissions']);
-    $this->assertEquals($zone->getPlan(),$zone_json['plan']);
+    $this->assertEquals($zone->getOwner(), $zone_json['owner']);
+    $this->assertEquals($zone->getPermissions(), $zone_json['permissions']);
+    $this->assertEquals($zone->getPlan(), $zone_json['plan']);
   }
 
   public function getFailedRequestCodes(){

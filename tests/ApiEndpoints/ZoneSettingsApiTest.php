@@ -55,7 +55,7 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
       new Response(200, [], $zoneSettingsInfoResponse),
     ]);
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $zone_settings = $api->getZoneSettings("test");
 
 
@@ -86,7 +86,7 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
       new Response(200, [], $response),
     ]);
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $api->purgeIndividualFiles("blah",['/alpha', 'beta']);
   }
 
@@ -98,7 +98,7 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
       new Response(200, [], $response),
     ]);
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $api->purgeTags("blah",['/alpha', 'beta']);
   }
 
@@ -110,7 +110,7 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
       new Response(200, [], $response),
     ]);
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $api->purgeAllFiles("zone_id");
   }
 
@@ -125,7 +125,7 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
 
    // $zone_settings = new ZoneSettings('myid',)
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $zone_settings = $api->getZoneSettings("test");
     $ddos_protection = $zone_settings->getSettingById(ZoneSettings::SETTING_ADVANCED_DDOS);
     $ddos_protection->setValue(FALSE);
@@ -156,7 +156,7 @@ class ZoneSettingsApiTest extends \PHPUnit_Framework_TestCase {
       new Response($code, $response_header),
     ]);
 
-    $api = new ZoneApi("api_key", "email", $mock);
+    $api = new ZoneApi("68ow48650j63zfzx1w9jd29cr367u0ezb6a4g", "email", $mock);
     $api->listZones();
   }
 
