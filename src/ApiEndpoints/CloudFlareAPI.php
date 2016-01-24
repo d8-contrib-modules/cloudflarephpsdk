@@ -10,11 +10,13 @@ namespace CloudFlarePhpSdk\ApiEndpoints;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Handler\MockHandler;
 
 use CloudFlarePhpSdk\ApiTypes\CloudFlareApiResponse;
 use CloudFlarePhpSdk\Exceptions\CloudFlareHttpException;
 use CloudFlarePhpSdk\Exceptions\CloudFlareApiException;
 use CloudFlarePhpSdk\Exceptions\CloudFlareTimeoutException;
+use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidCredentialException;
 
 /**
  * Base functionality for interacting with CloudFlare's API.
@@ -43,6 +45,12 @@ abstract class CloudFlareAPI {
   const REQUEST_TYPE_DELETE = 'DELETE';
   const API_ENDPOINT_BASE = 'https://api.cloudflare.com/client/v4/';
 
+  // The length of the Api key.
+  // The Api will throw a non-descriptive http code: 400 exception if the key
+  // length is greater than 37. If the key is invalid but the expected length
+  // the Api will return a more informative http code of 403.
+  const API_KEY_LENGTH = 37;
+
   // The CloudFlare API sets a maximum of 1,200 requests in a 5-minute period.
   const API_RATE_LIMIT = 1200;
 
@@ -67,8 +75,10 @@ abstract class CloudFlareAPI {
    *   API key generated on the "My Account" page.
    * @param string $email
    *   Email address associated with your CloudFlare account.
+   * @param \GuzzleHttp\Handler\MockHandler $mock_handler
+   *   Allow mocking of the Api.
    */
-  public function __construct($apikey, $email, $mock_handler = NULL) {
+  public function __construct($apikey, $email, MockHandler $mock_handler = NULL) {
     $this->apikey = $apikey;
     $this->email = $email;
     $headers = [
@@ -114,6 +124,24 @@ abstract class CloudFlareAPI {
    *     Exception at the Http level.
    */
   protected function makeRequest($request_type, $api_end_point, $request_params = NULL) {
+    // This check seems superfluous.  However, the Api only returns a http 400
+    // code. This proactive check gives us more information.
+    $is_api_key_valid = strlen($this->apikey) == CloudFlareAPI::API_KEY_LENGTH;
+    $is_api_key_alpha_numeric = ctype_alnum($this->apikey);
+    $is_api_key_lower_case = !(preg_match('/[A-Z]/', $this->apikey));
+
+    if (!$is_api_key_valid) {
+      throw new CloudFlareInvalidCredentialException("Invalid Api Key: Key should be 37 chars long.", 403);
+    }
+
+    if (!$is_api_key_alpha_numeric) {
+      throw new CloudFlareInvalidCredentialException('Invalid Api Key: Key can only contain alphanumeric characters.', 403);
+    }
+
+    if (!$is_api_key_lower_case) {
+      throw new CloudFlareInvalidCredentialException('Invalid Api Key: Key can only contain lowercase or numerical characters.', 403);
+    }
+
     try {
       switch ($request_type) {
         case self::REQUEST_TYPE_GET:
@@ -147,7 +175,12 @@ abstract class CloudFlareAPI {
     catch (RequestException $re) {
       $http_response_code = $re->getCode();
       $http_response_message = $re->getMessage();
-      throw new CloudFlareTimeoutException($http_response_message, $http_response_code, $re->getPrevious());
+      if ($http_response_code == 403) {
+        throw new CloudFlareInvalidCredentialException("Unfortunately your credentials failed to authenticate against the CloudFlare API.  Please enter valid credentials.", 403);
+      }
+      else {
+        throw new CloudFlareTimeoutException($http_response_message, $http_response_code, $re->getPrevious());
+      }
     }
 
     $http_response_code = $this->lastHttpResponse->getStatusCode();
