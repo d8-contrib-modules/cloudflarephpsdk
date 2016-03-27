@@ -54,8 +54,8 @@ abstract class CloudFlareAPI {
   // The CloudFlare API sets a maximum of 1,200 requests in a 5-minute period.
   const API_RATE_LIMIT = 1200;
 
-  // The CloudFlare API sets a maximum of 200 requests in a 24-hour period.
-  const API_TAG_PURGE_DAILY_RATE_LIMIT = 200;
+  // The CloudFlare API sets a maximum of 2000 requests in a 24-hour period.
+  const API_TAG_PURGE_DAILY_RATE_LIMIT = 2000;
 
   // Max Number of.
   const MAX_TAG_PURGES_PER_REQUEST = 30;
