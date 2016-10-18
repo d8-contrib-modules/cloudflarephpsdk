@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSettingBool class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
+
 use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
 
 /**
@@ -19,7 +15,6 @@ abstract class ZoneSettingSelectBase extends ZoneSettingBase {
    * @var int
    */
   private $value;
-
 
   /**
    * Gets the response value.
@@ -77,7 +72,6 @@ abstract class ZoneSettingSelectBase extends ZoneSettingBase {
       throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $value);
     }
   }
-
 
   /**
    * Default constructor for ZoneSettingsInt.

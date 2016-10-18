@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains CloudFlareTimeoutException.
- */
 
 namespace CloudFlarePhpSdk\Exceptions;
 

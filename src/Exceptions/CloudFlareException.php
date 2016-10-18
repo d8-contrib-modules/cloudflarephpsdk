@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains CloudFlareApiException.
- */
 
 namespace CloudFlarePhpSdk\Exceptions;
 
@@ -12,6 +8,7 @@ namespace CloudFlarePhpSdk\Exceptions;
  * Basic exception thrown from the CloudFlarePhpSdk.
  */
 class CloudFlareException extends \Exception {
+
   /**
    * Constructor for CloudFlareException.
    *

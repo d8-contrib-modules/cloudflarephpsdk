@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Implementation for CloudFlareZone class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
+
 /**
  * This class provides typed storage for Zone information from CloudFlare.
  *
@@ -29,7 +25,6 @@ class Zone {
   private $owner;
   private $permissions;
   private $plan;
-
 
   /**
    * Default constructor for CloudFlareZone object.

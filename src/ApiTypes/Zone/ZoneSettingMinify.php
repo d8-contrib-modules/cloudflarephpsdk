@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSettingBool class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
+
 use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
 
 /**
@@ -62,6 +58,7 @@ class ZoneSettingMinify extends ZoneSettingBase {
     $this->setInternalValue($css_minify, $html_minify, $js_minify);
     $this->markForEdit();
   }
+
   /**
    * Sets minification settings for the zone.
    *
@@ -82,7 +79,6 @@ class ZoneSettingMinify extends ZoneSettingBase {
     $this->html = filter_var($html_minify, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     $this->js = filter_var($js_minify, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
   }
-
 
   /**
    * Asserts that the minify values are valid.
@@ -114,7 +110,6 @@ class ZoneSettingMinify extends ZoneSettingBase {
       throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $js_minify);
     }
   }
-
 
   /**
    * Checks if Css minification is enabled.

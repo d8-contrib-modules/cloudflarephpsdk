@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains CloudFlareNotModifiableException.
- */
 
 namespace CloudFlarePhpSdk\Exceptions;
 

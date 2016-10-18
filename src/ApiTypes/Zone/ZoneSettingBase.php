@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSetting class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
+
 use CloudFlarePhpSdk\Exceptions\CloudFlareNotModifiableException;
 
 /**

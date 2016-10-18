@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Implementation for CloudFlareUser class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes;
+
 /**
  * This class provides typed storage for User information from CloudFlare.
  */

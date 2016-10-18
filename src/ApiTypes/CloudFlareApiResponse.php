@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Implementation of CloudFlareApiResponse class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes;
+
 use CloudFlarePhpSdk\Utils;
 
 /**
@@ -34,7 +30,6 @@ class CloudFlareApiResponse {
    */
   private $messages;
 
-
   /**
    * Results from the Api.
    *
@@ -42,6 +37,33 @@ class CloudFlareApiResponse {
    */
   private $result;
 
+  /**
+   * The current request page returned from the Api.
+   *
+   * @var int
+   */
+  private $page;
+
+  /**
+   * The number of results returned per page.
+   *
+   * @var int
+   */
+  private $resultsPerPage;
+
+  /**
+   * The number of page.
+   *
+   * @var int
+   */
+  private $numPages;
+
+  /**
+   * The number of individual records returned.
+   *
+   * @var int
+   */
+  private $totalCount;
 
   /**
    * Returns if the response was successful or not.
@@ -74,6 +96,46 @@ class CloudFlareApiResponse {
   }
 
   /**
+   * The current request page returned from the Api.
+   *
+   * @return int
+   *   Page number.
+   */
+  public function getPage() {
+    return $this->page;
+  }
+
+  /**
+   * The number of results returned per page.
+   *
+   * @return int
+   *   Results per page.
+   */
+  public function getResultsPerPage() {
+    return $this->resultsPerPage;
+  }
+
+  /**
+   * The number of pages of results returned by the API.
+   *
+   * @return int
+   *   Number of pages.
+   */
+  public function getNumPages() {
+    return $this->numPages;
+  }
+
+  /**
+   * The total number of records that could be returned across pages by the API.
+   *
+   * @return int
+   *   The number of records.
+   */
+  public function getNumRecords() {
+    return $this->totalCount;
+  }
+
+  /**
    * Gets Api results.
    *
    * @return array
@@ -97,6 +159,14 @@ class CloudFlareApiResponse {
     $this->success = (bool) $response['success'];
     $this->errors = $response['errors'];
     $this->messages = $response['messages'];
+
+    $has_pagination_date = isset($response['total_count']);
+    if ($has_pagination_date) {
+      $this->totalCount = $response['total_count'];
+      $this->page = $response['result_info']['page'];
+      $this->resultsPerPage = $response['result_info']['per_page'];
+      $this->numPages = $response['result_info']['count'];
+    }
   }
 
 }

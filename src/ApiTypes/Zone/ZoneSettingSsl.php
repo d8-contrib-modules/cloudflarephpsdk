@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSettingSsl class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
 
 /**

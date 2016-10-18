@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSettingBrowserCacheTtl class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
 
 /**

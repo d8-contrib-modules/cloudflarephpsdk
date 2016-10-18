@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains CloudFlareInvalidSettingValue.
- */
 
 namespace CloudFlarePhpSdk\Exceptions;
 
@@ -26,7 +22,6 @@ class CloudFlareInvalidSettingValueException extends CloudFlareException {
    * @var string
    */
   private $invalidValue;
-
 
   /**
    * Constructor for CloudFlareInvalidSettingValueException.

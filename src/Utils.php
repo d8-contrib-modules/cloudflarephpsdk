@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains useful helper functions for CloudFlarePhpSdk.
- */
 
 namespace CloudFlarePhpSdk;
 
@@ -55,7 +51,7 @@ class Utils {
   /**
    * Parses a date-time from CloudFlare into a unix timestamp.
    *
-   * @param string|NULL $str_date
+   * @param string|null $str_date
    *   A string containing a UTC ISO-8601 formated date, including microseconds.
    *   e.g '2014-05-28T18:46:18.764425Z'.
    *

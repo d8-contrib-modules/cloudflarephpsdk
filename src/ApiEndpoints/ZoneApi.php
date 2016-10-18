@@ -1,14 +1,9 @@
 <?php
 
-/**
- * @file
- * Functions for interacting with Zones via the CloudFlare API.
- */
-
 namespace CloudFlarePhpSdk\ApiEndpoints;
+
 use CloudFlarePhpSdk\ApiTypes\Zone\Zone;
 use CloudFlarePhpSdk\ApiTypes\Zone\ZoneSettings;
-
 
 /**
  * Provides functionality for reading and manipulating CloudFlare zones via API.
@@ -20,7 +15,7 @@ class ZoneApi extends CloudFlareAPI {
    *
    * @param string $apikey
    *   Cloud flare API key.
-   * @param NULL|string $email
+   * @param null|string $email
    *   Email address of API user.
    */
   public function __construct($apikey, $email = NULL, $mock = NULL) {
@@ -30,6 +25,9 @@ class ZoneApi extends CloudFlareAPI {
   /**
    * Retrieves a listing of Zones from CloudFlare.
    *
+   * @param int $page
+   *   (Optional) The current page of the request.
+   *
    * @return array
    *   A array of CloudFlareZones objects from the current CloudFlare account.
    *
@@ -37,13 +35,15 @@ class ZoneApi extends CloudFlareAPI {
    *   Throws an exception if there is an application level error returned from
    *   the API.
    */
-  public function listZones() {
+  public function listZones($page = CloudFlareAPI::REQUEST_ALL_PAGES) {
     $request_path = 'zones';
-    $result = $this->makeRequest(self::REQUEST_TYPE_GET, $request_path);
+    $results = $this->makeListingRequest(self::REQUEST_TYPE_GET, $request_path, [], $page);
     $parsed_zones = [];
 
-    foreach ($result->getResult() as $zone) {
-      $parsed_zones[] = new Zone($zone);
+    foreach ($results as $result) {
+      foreach ($result->getResult() as $zone) {
+        $parsed_zones[] = new Zone($zone);
+      }
     }
     return $parsed_zones;
   }

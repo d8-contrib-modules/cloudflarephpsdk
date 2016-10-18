@@ -1,10 +1,7 @@
 <?php
-/**
- * @file
- * Implementation for Zone class.
- */
 
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
+
 use CloudFlarePhpSdk\ApiTypes\CloudFlareApiResponse;
 use CloudFlarePhpSdk\Utils;
 
@@ -20,15 +17,17 @@ use CloudFlarePhpSdk\Utils;
  * API.
  */
 class ZoneSettings {
-  /*
-   * @var string
+  /**
    * The zone's zoneId.
+   *
+   * @var string
    */
   private $id;
 
-  /*
-   * @var array
+  /**
    * Typed ZoneSetting objects.
+   *
+   * @var array
    */
   private $settings;
 
@@ -101,7 +100,6 @@ class ZoneSettings {
     ];
   }
 
-
   /**
    * Gets an array of names of api settings with finite list of valid values.
    *
@@ -116,7 +114,6 @@ class ZoneSettings {
       self::SETTING_SSL,
     ];
   }
-
 
   /**
    * Gets an array of names of api settings which store boolean types.
