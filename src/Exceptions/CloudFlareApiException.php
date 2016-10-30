@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains CloudFlareApiException.
- */
 
 namespace CloudFlarePhpSdk\Exceptions;
 
@@ -29,7 +25,6 @@ class CloudFlareApiException extends CloudFlareException {
    * @var null|string
    */
   private $httpResponseCode;
-
 
   /**
    * Constructor for CloudFlareApiException.

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Base functionality for sending requests to the CloudFlare API.
- */
-
 namespace CloudFlarePhpSdk\ApiEndpoints;
 
 use GuzzleHttp\Client;
@@ -33,9 +28,15 @@ abstract class CloudFlareAPI {
   /**
    * Last raw response returned from the API.  Intended for debugging only.
    *
-   * @var Response;
+   * @var \Psr\Http\Message\ResponseInterface
    */
   protected $lastHttpResponse;
+
+  /**
+   * Last raw response returned from the API.  Intended for debugging only.
+   *
+   * @var \CloudFlarePhpSdk\ApiTypes\CloudFlareApiResponse
+   */
   protected $lastApiResponse;
   // Contact "source" property values.
   const REQUEST_TYPE_GET = 'GET';
@@ -43,6 +44,7 @@ abstract class CloudFlareAPI {
   const REQUEST_TYPE_PUT = 'PUT';
   const REQUEST_TYPE_PATCH = 'PATCH';
   const REQUEST_TYPE_DELETE = 'DELETE';
+  const REQUEST_ALL_PAGES = -1;
   const API_ENDPOINT_BASE = 'https://api.cloudflare.com/client/v4/';
 
   // The length of the Api key.
@@ -65,6 +67,15 @@ abstract class CloudFlareAPI {
 
   // Time in seconds.
   const HTTP_TIMEOUT = 3;
+
+  // MAX Number of results returned by the API in one request.
+  const MAX_ITEMS_PER_PAGE = 50;
+
+  // Pagination Direction ascending.
+  const PAGINATION_DIRECTION_ASC = 'ASC';
+
+  // Pagination Direction descending.
+  const PAGINATION_DIRECTION_DESC = 'DESC';
 
   /**
    * Constructor for the Cloudflare SDK object.
@@ -111,7 +122,7 @@ abstract class CloudFlareAPI {
    * @param string $api_end_point
    *   The relative url for the endpoint.  All endpoints are assumed to be
    *   relative to 'https://api.cloudflare.com/client/v4/'.
-   * @param array|null $request_params
+   * @param array $request_params
    *   (Optional) Associative array of parameters to be passed with the HTTP
    *   request.
    *
@@ -123,7 +134,11 @@ abstract class CloudFlareAPI {
    * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareHttpException
    *     Exception at the Http level.
    */
-  protected function makeRequest($request_type, $api_end_point, $request_params = NULL) {
+  protected function makeRequest($request_type, $api_end_point, $request_params = []) {
+    // Default the number of pages returned by the API to MAX.
+    if (!isset($request_params['per_page'])) {
+      $request_params['per_page'] = self::MAX_ITEMS_PER_PAGE;
+    }
     // This check seems superfluous.  However, the Api only returns a http 400
     // code. This proactive check gives us more information.
     $is_api_key_valid = strlen($this->apikey) == CloudFlareAPI::API_KEY_LENGTH;
@@ -162,7 +177,6 @@ abstract class CloudFlareAPI {
 
         case self::REQUEST_TYPE_DELETE:
           $this->lastHttpResponse = $this->client->delete($api_end_point, ['json' => $request_params]);
-          // json,data.
           break;
       }
     }
@@ -211,6 +225,64 @@ abstract class CloudFlareAPI {
       throw new CloudFlareApiException($http_response_code, NULL, $http_response_message, NULL);
     }
     return $this->lastApiResponse;
+  }
+
+  /**
+   * Request multiple pages of information from the API.
+   *
+   * @param string $request_type
+   *   The type of HTTP request being made.
+   *   Expected to be one of: REQUEST_TYPE_GET, REQUEST_TYPE_POST
+   *   REQUEST_TYPE_PATCH, REQUEST_TYPE_PUT or REQUEST_TYPE_DELETE.
+   * @param string $api_end_point
+   *   The relative url for the endpoint.  All endpoints are assumed to be
+   *   relative to 'https://api.cloudflare.com/client/v4/'.
+   * @param array|null $request_params
+   *   (Optional) Associative array of parameters to be passed with the HTTP
+   *   request.
+   * @param int $page
+   *   (Optional) The current page of the request.
+   *
+   * @return \CloudFlarePhpSdk\ApiTypes\CloudFlareApiResponse
+   *   The response from the Api
+   *
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareApiException
+   *    Exception at the application level.
+   * @throws \CloudFlarePhpSdk\Exceptions\CloudFlareHttpException
+   *     Exception at the Http level.
+   */
+  protected function makeListingRequest($request_type, $api_end_point, $request_params = NULL, $page = self::REQUEST_ALL_PAGES) {
+    $get_all_pages = $page == self::REQUEST_ALL_PAGES;
+    $responses = [];
+
+    if (!$get_all_pages) {
+      $request_params['page'] = $page;
+    }
+
+    /* @var \CloudFlarePhpSdk\ApiTypes\CloudFlareApiResponse $initial_request */
+    $initial_request = $this->makeRequest($request_type, $api_end_point, $request_params);
+    $responses[] = $initial_request;
+
+    if ($get_all_pages) {
+      $num_pages = $initial_request->getNumPages();
+      for ($i = 1; $i < $num_pages; $i++) {
+        $request_params['page'] = $i;
+        $current_request = makeRequest($request_type, $api_end_point, $request_params);
+        $responses[] = $current_request;
+      }
+    }
+    return $responses;
+  }
+
+  /**
+   * Gets number of pages of records/results for the last API request.
+   *
+   * @return int
+   *   Number of pages.
+   */
+  public function getTotalNumberOfPagesForLastRequest() {
+    $has_pagination_data = is_set($this->lastApiResponse->getNumPages());
+    return $has_pagination_data ? $this->lastApiResponse->getNumPages() : 1;
   }
 
 }

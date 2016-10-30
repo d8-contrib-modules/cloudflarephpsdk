@@ -1,24 +1,32 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSettingMobileRedirect class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
+
 use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
 
 /**
  * Contains fields for ZoneSettingMobileRedirect.
  */
 class ZoneSettingMobileRedirect extends ZoneSettingBase {
-  /* @var bool $isMobileRedirectEnabled */
+  /**
+   * Flag for if mobile redirect enabled at CloudFlare.
+   *
+   * @var bool
+   */
   private $isMobileRedirectEnabled;
 
-  /* @var string $string */
+  /**
+   * Mobile subdomain for the zone.
+   *
+   * @var string
+   */
   private $mobileSubdomain;
 
-  /* @var bool $isStripUriEnabled */
+  /**
+   * Flag for if URI's should be stripped.
+   *
+   * @var bool
+   */
   private $isStripUriEnabled;
 
   /**
@@ -60,7 +68,7 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
   /**
    * Subdomain prefix you wish to redirect visitors on mobile devices to.
    *
-   * @return NULL|string
+   * @return null|string
    *   The current subdomain.
    */
   public function getMobileSubdomain() {
@@ -127,7 +135,6 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
     }
   }
 
-
   /**
    * Sets the Subdomain prefix for mobile visitors.  Marks setting as edited.
    *
@@ -181,7 +188,6 @@ class ZoneSettingMobileRedirect extends ZoneSettingBase {
       throw new CloudFlareInvalidSettingValueException($this->getZoneSettingName(), $mobile_subdomain);
     }
   }
-
 
   /**
    * Enables URI stripping.  Marks variable as edited.

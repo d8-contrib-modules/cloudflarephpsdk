@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains CloudFlareApiException.
- */
 
 namespace CloudFlarePhpSdk\Exceptions;
 

@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSettingSecurityHeader class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
+
 use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
 
 /**

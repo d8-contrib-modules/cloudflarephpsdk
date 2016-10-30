@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains CloudFlareInvalidCredentialException.
- */
 
 namespace CloudFlarePhpSdk\Exceptions;
 

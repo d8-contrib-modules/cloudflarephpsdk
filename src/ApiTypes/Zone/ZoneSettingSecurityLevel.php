@@ -1,12 +1,6 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSettingBool class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
-
 
 /**
  * Contains fields for a setting that has an on/off value.

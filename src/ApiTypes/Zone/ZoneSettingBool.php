@@ -1,13 +1,8 @@
 <?php
 
-/**
- * @file
- * Implementation of ZoneSettingBool class.
- */
-
 namespace CloudFlarePhpSdk\ApiTypes\Zone;
-use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
 
+use CloudFlarePhpSdk\Exceptions\CloudFlareInvalidSettingValueException;
 
 /**
  * Contains fields for a setting that has an on/off value.
@@ -23,7 +18,6 @@ class ZoneSettingBool extends ZoneSettingBase {
    * @var bool
    */
   protected $value;
-
 
   /**
    * Gets the response value.
