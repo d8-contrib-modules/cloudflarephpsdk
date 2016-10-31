@@ -160,12 +160,12 @@ class CloudFlareApiResponse {
     $this->errors = $response['errors'];
     $this->messages = $response['messages'];
 
-    $has_pagination_date = isset($response['total_count']);
-    if ($has_pagination_date) {
-      $this->totalCount = $response['total_count'];
+    $has_pagination_data = isset($response['result_info']['total_count']);
+    if ($has_pagination_data) {
+      $this->totalCount = $response['result_info']['total_count'];
       $this->page = $response['result_info']['page'];
       $this->resultsPerPage = $response['result_info']['per_page'];
-      $this->numPages = $response['result_info']['count'];
+      $this->numPages = $response['result_info']['total_pages'];
     }
   }
 

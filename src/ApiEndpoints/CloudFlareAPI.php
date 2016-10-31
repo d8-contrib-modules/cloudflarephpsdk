@@ -265,9 +265,9 @@ abstract class CloudFlareAPI {
 
     if ($get_all_pages) {
       $num_pages = $initial_request->getNumPages();
-      for ($i = 1; $i < $num_pages; $i++) {
+      for ($i = 1; $i <= $num_pages; $i++) {
         $request_params['page'] = $i;
-        $current_request = makeRequest($request_type, $api_end_point, $request_params);
+        $current_request = $this->makeRequest($request_type, $api_end_point, $request_params);
         $responses[] = $current_request;
       }
     }
