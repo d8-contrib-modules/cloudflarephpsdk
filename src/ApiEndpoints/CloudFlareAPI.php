@@ -262,11 +262,11 @@ abstract class CloudFlareAPI {
     /* @var \CloudFlarePhpSdk\ApiTypes\CloudFlareApiResponse $initial_request */
     $initial_request = $this->makeRequest($request_type, $api_end_point, $request_params);
     $responses[] = $initial_request;
+    $num_pages = $initial_request->getNumPages();
 
     if ($get_all_pages) {
-      $num_pages = $initial_request->getNumPages();
-      for ($i = 1; $i <= $num_pages; $i++) {
-        $request_params['page'] = $i;
+      for ($i = 1; $i < $num_pages; $i++) {
+        $request_params['page'] = $i + 1;
         $current_request = $this->makeRequest($request_type, $api_end_point, $request_params);
         $responses[] = $current_request;
       }

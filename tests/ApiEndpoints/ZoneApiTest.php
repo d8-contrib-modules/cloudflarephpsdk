@@ -148,7 +148,8 @@ class ZoneApiTest extends \PHPUnit_Framework_TestCase {
         "page": 1,
         "per_page": 20,
         "count": 1,
-        "total_count": 2000
+        "total_count": 5,
+        "total_pages": 1
         }
         }';
      return [[$json]];
