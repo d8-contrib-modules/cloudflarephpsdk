@@ -39,10 +39,14 @@ class Zone {
     $this->paused = $cloudflare_zone_settings['paused'];
     $this->type = $cloudflare_zone_settings['type'];
     $this->developmentMode = $cloudflare_zone_settings['development_mode'];
-    $this->nameServers = $cloudflare_zone_settings['name_servers'];
-    $this->originalNameServers = $cloudflare_zone_settings['original_name_servers'];
-    $this->originalRegistrar = $cloudflare_zone_settings['original_registrar'];
-    $this->originalDnshost = $cloudflare_zone_settings['original_dnshost'];
+
+    if (isset($cloudflare_zone_settings['name_servers'])) {
+      $this->nameServers = $cloudflare_zone_settings['name_servers'];
+      $this->originalNameServers = $cloudflare_zone_settings['original_name_servers'];
+      $this->originalRegistrar = $cloudflare_zone_settings['original_registrar'];
+      $this->originalDnshost = $cloudflare_zone_settings['original_dnshost'];
+    }
+
     $this->modifiedOn = $cloudflare_zone_settings['modified_on'];
     $this->createdOn = $cloudflare_zone_settings['created_on'];
     $this->owner = $cloudflare_zone_settings['owner'];
