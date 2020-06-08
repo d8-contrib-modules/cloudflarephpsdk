@@ -47,11 +47,13 @@ abstract class CloudFlareAPI {
   const REQUEST_ALL_PAGES = -1;
   const API_ENDPOINT_BASE = 'https://api.cloudflare.com/client/v4/';
 
-  // The length of the Api key.
+  // The length of the Global Api key.
   // The Api will throw a non-descriptive http code: 400 exception if the key
   // length is greater than 37. If the key is invalid but the expected length
   // the Api will return a more informative http code of 403.
-  const API_KEY_LENGTH = 37;
+  const GLOBAL_API_KEY_LENGTH = 37;
+  // The length of the Api key.
+  const API_KEY_LENGTH = 40;
 
   // The CloudFlare API sets a maximum of 1,200 requests in a 5-minute period.
   const API_RATE_LIMIT = 1200;
@@ -141,7 +143,8 @@ abstract class CloudFlareAPI {
     }
     // This check seems superfluous.  However, the Api only returns a http 400
     // code. This proactive check gives us more information.
-    $is_api_key_valid = strlen($this->apikey) == CloudFlareAPI::API_KEY_LENGTH;
+    $api_key_length = strlen($this->apikey);
+    $is_api_key_valid = $api_key_length == CloudFlareAPI::API_KEY_LENGTH || $api_key_length == CloudflareAPI::GLOBAL_API_KEY_LENGTH;
     $is_api_key_alpha_numeric = ctype_alnum($this->apikey);
     $is_api_key_lower_case = !(preg_match('/[A-Z]/', $this->apikey));
 
