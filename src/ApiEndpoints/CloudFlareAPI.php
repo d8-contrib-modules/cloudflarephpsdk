@@ -65,10 +65,10 @@ abstract class CloudFlareAPI {
   const MAX_TAG_PURGES_PER_REQUEST = 30;
 
   // Time in seconds.
-  const HTTP_CONNECTION_TIMEOUT = 1.5;
+  const HTTP_CONNECTION_TIMEOUT = 15;
 
   // Time in seconds.
-  const HTTP_TIMEOUT = 3;
+  const HTTP_TIMEOUT = 30;
 
   // MAX Number of results returned by the API in one request.
   const MAX_ITEMS_PER_PAGE = 50;
