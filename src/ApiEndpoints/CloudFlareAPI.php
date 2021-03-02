@@ -135,10 +135,6 @@ abstract class CloudFlareAPI {
    *     Exception at the Http level.
    */
   protected function makeRequest($request_type, $api_end_point, $request_params = []) {
-    // Default the number of pages returned by the API to MAX.
-    if (!isset($request_params['per_page'])) {
-      $request_params['per_page'] = self::MAX_ITEMS_PER_PAGE;
-    }
     // This check seems superfluous.  However, the Api only returns a http 400
     // code. This proactive check gives us more information.
     $is_api_key_valid = strlen($this->apikey) == CloudFlareAPI::API_KEY_LENGTH;
@@ -160,6 +156,10 @@ abstract class CloudFlareAPI {
     try {
       switch ($request_type) {
         case self::REQUEST_TYPE_GET:
+          // Default the number of pages returned by the API to MAX.
+          if (!isset($request_params['per_page'])) {
+            $request_params['per_page'] = self::MAX_ITEMS_PER_PAGE;
+          }
           $this->lastHttpResponse = $this->client->get($api_end_point, ['query' => $request_params]);
           break;
 
