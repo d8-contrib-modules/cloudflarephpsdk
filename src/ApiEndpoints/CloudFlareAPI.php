@@ -23,7 +23,7 @@ abstract class CloudFlareAPI {
    *
    * @var \GuzzleHttp\Client
    */
-  private $client;
+  protected $client;
 
   /**
    * Last raw response returned from the API.  Intended for debugging only.
